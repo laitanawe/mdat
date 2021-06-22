@@ -1,0 +1,45 @@
+FROM ubuntu:18.04
+MAINTAINER Olaitan I. Awe: laitanawe@gmail.com
+
+ENV MY_DOCKER_DIRECTORY=/packages
+ENV SRA_TOOLKIT=/usr/local/ncbi/sra-tools/bin
+ENV SRA_CONFIG_DIR=/root/.ncbi
+
+## microbetaxasars2:21.04
+## Update apt database
+RUN apt-get update -y
+
+## Install FastQC: Quality Control
+RUN apt-get install -y \
+   fastqc \
+## Install Prodigal: Annotation of Assembled Genomes and install python
+   prodigal \
+   python3.8 \
+   python3-distutils \
+   curl
+
+# Create symbolic link for Python 3.8, it works well with the pipeline
+# You can cd into your preferred package directory before downloading installers
+RUN ln -s /usr/bin/python3.8 /usr/bin/python && mkdir -pv ${MY_DOCKER_DIRECTORY} && cd ${MY_DOCKER_DIRECTORY} && echo "The setup is making progress. FastQC, Prodigal, Python and Curl have been installed!" > ${MY_DOCKER_DIRECTORY}/install_microbetaxasars2.log
+WORKDIR ${MY_DOCKER_DIRECTORY}
+
+## Install SPADES: Genome Assembly (MetaSPAdes)
+RUN curl -# -SLO http://cab.spbu.ru/files/release3.12.0/SPAdes-3.12.0-Linux.tar.gz \
+   && tar zxvf SPAdes-3.12.0-Linux.tar.gz
+## Environment Path variable should be updated this way, as an alternative to export
+ENV PATH "$PATH:${MY_DOCKER_DIRECTORY}/SPAdes-3.12.0-Linux/bin"
+
+## Install NCBI SRA Toolkit: Set of tools and libraries for using Sequence Read Archive data
+RUN curl -# -SLO https://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/2.11.0/setup-apt.sh
+RUN chmod +x ${MY_DOCKER_DIRECTORY}/setup-apt.sh
+RUN ${MY_DOCKER_DIRECTORY}/setup-apt.sh
+## SRA Toolkit can be configured with the default settings with before using it
+RUN mkdir -pv $SRA_CONFIG_DIR
+COPY .ncbi/user-settings.mkfg $SRA_CONFIG_DIR
+RUN  chmod 600 $SRA_CONFIG_DIR/user-settings.mkfg && ls -lAh $SRA_CONFIG_DIR/
+
+# Add SRA-Toolkit to Environment Variable
+ENV PATH "$PATH:${SRA_TOOLKIT}"
+
+## Remove files that are no more needed.
+RUN rm -v setup-apt.sh SPAdes-3.12.0-Linux.tar.gz  && echo "The setup is now completed!" >> ${MY_DOCKER_DIRECTORY}/install_microbetaxasars2.log
