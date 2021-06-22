@@ -23,24 +23,17 @@ for i in range(len(forward_list)):
 	forward=forward_list[i]
 	reverse=reverse_list[i]
 	output=output_list[i]
-	print('STARTING METASPADES ASSEMBLY...')
+	print('STARTING METAGENOME ASSEMBLY WITH METASPADES...')
 	assemble(forward,reverse,output)
-	print('ASSEMBLY COMPLETE...')
+	print('METAGENOME ASSEMBLY COMPLETE...')
 	gc.collect()
-	print('GARBAGE TAKEN OUT!!')
 
 	#annotate using prodigal
-	print('STARTING PRODIGAL ANNOTATION...')
+	print('STARTING METAGENOME ANNOTATION WITH PRODIGAL...')
 	prodigal(output)
-	print('PRODIGAL ANNOTATION COMPLETE...')
+	print('METAGENOME ANNOTATION COMPLETE...')
 	gc.collect()
-	print('GARBAGE TAKEN OUT!!')
 
-	#analyze the contigs.nuc.fasta output from prodigal using metaphlan
-	#print('STARTING METAPHLAN ANALYSIS...')
-	#meta(output)
-	#print('METAPHLAN ANALYSIS COMPLETE...')
-
-	#taxonomy code
+	#taxonomy characterization needs tot be done
 	gc.collect()
-	print ('GARBAGE TAKEN OUT!!')
+	print ('TAXONOMY CHARACTERIZATION NEEDS TO BE DONE!')
