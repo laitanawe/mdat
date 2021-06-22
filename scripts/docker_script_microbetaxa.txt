@@ -33,7 +33,7 @@ ENV PATH "$PATH:${MY_DOCKER_DIRECTORY}/SPAdes-3.12.0-Linux/bin"
 RUN curl -# -SLO https://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/2.11.0/setup-apt.sh
 RUN chmod +x ${MY_DOCKER_DIRECTORY}/setup-apt.sh
 RUN ${MY_DOCKER_DIRECTORY}/setup-apt.sh
-## SRA Toolkit can be configured with the default settings with before using it
+## SRA Toolkit can be configured with the default settings before using it
 RUN mkdir -pv $SRA_CONFIG_DIR
 COPY .ncbi/user-settings.mkfg $SRA_CONFIG_DIR
 RUN  chmod 600 $SRA_CONFIG_DIR/user-settings.mkfg && ls -lAh $SRA_CONFIG_DIR/
@@ -41,5 +41,5 @@ RUN  chmod 600 $SRA_CONFIG_DIR/user-settings.mkfg && ls -lAh $SRA_CONFIG_DIR/
 # Add SRA-Toolkit to Environment Variable
 ENV PATH "$PATH:${SRA_TOOLKIT}"
 
-## Remove files that are no more needed.
+## Remove files that are no more needed and update the install log file.
 RUN rm -v setup-apt.sh SPAdes-3.12.0-Linux.tar.gz  && echo "The setup is now completed!" >> ${MY_DOCKER_DIRECTORY}/install_microbetaxasars2.log
