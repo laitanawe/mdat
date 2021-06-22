@@ -22,6 +22,7 @@ def get_tax_data(taxid):
 ###############################################
 
 ## Usage: python taxonomy_code.py *_1.fastq*_outputs/contigs.gff *_1.fastq*_outputs/contigs.tsv laitanawe@yahoo.com
+## Usage: python taxapro.py (assuming that metagenome was assembled using microbetaxasars2 and taxapro is in same directory as fastqs)
 Entrez.email = "laitanawe@yahoo.com"
 in_file_list = sorted(glob.glob('*_1.fastq*_outputs/contigs.gff'))
 print("InFileList: " + str(in_file_list))

@@ -9,6 +9,7 @@ def prodigal (output):
 def meta (output):
     return os.system('metaphlan '+output+'/contigs.nuc.fasta --input_type fasta -o '+output+'/profiled_metagenome.txt')
 
+# Python microbetaxasars2.py (assuming all fastqs are in same dir as python microbetaxasars2)
 #Read in all forward and reverse sequences -- CHANGE FILEPATH IF NEEDED#
 forward_list=sorted(glob.glob('*_1.fastq*'))
 reverse_list=sorted(glob.glob('*_2.fastq*'))

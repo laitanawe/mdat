@@ -1,3 +1,5 @@
+## Usage: python taxa_visualizer.py (takes in .tsv and spits out .png for each family, genus, phyla and species)
+
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
