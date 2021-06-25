@@ -1,0 +1,34 @@
+Recent studies have revealed that the gut microbiome of healthy individuals differ remarkably from gut microbiota of COVID-19 patients. However, no studies have examined the relationships of nasopharyngeal microbial communities among healthy individual, COVID-19 confirmed and recovered patients. We hypothesized the possible dysbiosis of microbiome composition and genomic features in nasopharyngeal samples are associated with different pathophysiological conditions of Severe Acute Respiratory Syndrome Coronavirus-2 (SARS-CoV-2) infections. To address this hypothesis, we employed RNASeq analysis of 22 nasopharyngeal samples (including COVID-19 = 8, Recovered = 7 and Healthy = 7) to decipher the microbiome composition, diversities, interrelation, and relevant metabolic functions. These data mapped to 2281 bacterial species showing distinct microbiome dysbiosis (COVID-19>Recovered>Healthy).
+
+These data mapped to 2281 bacterial species showing distinct microbiome dysbiosis. (CoVID-19 = 8, Recovered = 7 and Healthy = 7).
+acc_healthy(7):
+SRR14215333
+SRR14215332
+-----
+SRR14215331
+SRR14215324
+SRR14215325
+SRR14215327
+SRR14215328
+
+acc_recovered(7):
+SRR14215341
+SRR14215340
+-----
+SRR14215338
+SRR14215337
+SRR14215336
+SRR14215334
+SRR14215335
+
+acc_covidconfirmed(8):
+SRR14215345
+SRR14215339
+-----
+SRR14215326
+SRR14215329
+SRR14215330
+SRR14215344
+SRR14215343
+SRR14215342
+
