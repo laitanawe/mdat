@@ -122,7 +122,7 @@ From: debian:stable-20211011-slim
     subread-align -version
 
 %labels
-    Author olaitan.awe@jax.org
+    Author laitanawe@gmail.com
     Version 0.1
 
 %help

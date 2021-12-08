@@ -1,0 +1,170 @@
+==deffile==
+Bootstrap: docker
+From: debian:stable-20211011-slim
+
+%post
+  ## temporarily set locale (otherwise get locale warnings):
+  export LANG=C
+
+  ## update indices:
+  apt update
+
+  ## misc:
+  apt install -y dialog=1.3-20201126-1
+
+  ## locale:
+  apt install -y locales
+  echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
+  locale-gen
+  update-locale "LANG=en_US.UTF-8"   ## or: echo 'LANG=en_US.UTF-8' > /etc/default/locale
+
+  ## dev tools:
+  apt install -y build-essential=12.9      ## warnings about man pages ok
+  apt install -y wget=1.21-1+b1
+  apt install -y zip=3.0-12
+  apt install -y git=1:2.30.2-1
+  apt install -y zlib1g-dev=1:1.2.11.dfsg-2
+
+  ## languages:
+  apt install -y default-jre=2:1.11-72     ## runlevel and schema messages ok
+  apt install -y python3=3.9.2-3
+  ln -s /usr/bin/python3 /usr/local/bin/python
+  apt install -y r-base=4.0.4-1            ## warnings about man pages ok
+
+  ## python tools via apt:
+  apt install -y python3-dev=3.9.2-3
+  apt install -y python3-setuptools=52.0.0-4
+  apt install -y python3-pip=20.3.4-4
+
+ ## misc dependencies:
+  apt install -y libcurl4-openssl-dev=7.74.0-1.3+b1
+  apt install -y librsvg2-dev=2.50.3+dfsg-1
+  apt install -y libxml2-dev=2.9.10+dfsg-6.7
+  apt install -y libssl-dev=1.1.1k-1+deb11u1
+  apt install -y file=1:5.39-3
+  apt install -y libnode-dev=12.22.5~dfsg-2~11u1
+  apt install -y tcl-dev=8.6.11+1
+
+  ## samtools:
+  apt install -y samtools=1.11-1
+
+  ## python common via pip:
+  pip install numpy==1.21.3
+  pip install matplotlib==3.4.3
+  pip install scipy==1.7.1
+  pip install pysam==0.18.0
+
+  ## sambamba:
+  mkdir -p /opt/sambamba
+  cd /opt/sambamba
+  wget https://github.com/biod/sambamba/releases/download/v0.8.1/sambamba-0.8.1-linux-amd64-static.gz
+  gunzip sambamba-0.8.1-linux-amd64-static.gz
+  chmod 755 sambamba-0.8.1-linux-amd64-static
+  ln -s $PWD/sambamba-0.8.1-linux-amd64-static /usr/local/bin/sambamba
+
+  ## fastqc: https://raw.githubusercontent.com/s-andrews/FastQC/master/INSTALL.txt
+  mkdir -p /opt/fastqc
+  cd /opt/fastqc
+  wget https://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.11.9.zip
+  unzip fastqc_v0.11.9.zip
+  rm fastqc_v0.11.9.zip
+  mv FastQC/* .
+  rmdir FastQC
+  chmod ugo+x fastqc
+  ln -s /opt/fastqc/fastqc /usr/local/bin/
+
+  ## bowtie:
+  mkdir -p /opt/bowtie
+  cd /opt/bowtie
+  wget https://downloads.sourceforge.net/project/bowtie-bio/bowtie/1.3.1/bowtie-1.3.1-src.zip
+  unzip bowtie-1.3.1-src.zip
+  rm bowtie-1.3.1-src.zip
+  cd bowtie-1.3.1-src
+  make
+  find $PWD -maxdepth 1 -executable -type f -exec ln -s {} /usr/local/bin/ \;
+
+
+  ## bowtie2:
+  mkdir -p /opt/bowtie2
+  cd /opt/bowtie2
+  wget https://downloads.sourceforge.net/project/bowtie-bio/bowtie2/2.4.4/bowtie2-2.4.4-linux-x86_64.zip
+  unzip bowtie2-2.4.4-linux-x86_64.zip
+  rm bowtie2-2.4.4-linux-x86_64.zip
+  mv bowtie2-2.4.4-linux-x86_64/* .
+  rmdir bowtie2-2.4.4-linux-x86_64
+  ln -s /opt/bowtie2/bowtie2* /usr/local/bin/
+
+  ## bwa:
+  cd /opt
+  git clone https://github.com/lh3/bwa.git
+  cd bwa
+  git checkout 3ddd7b87d41f89a404d95f083fb37c369f70d783
+  make
+  ln -s /opt/bwa/bwa /usr/local/bin/
+
+  ## HTSeq:
+  pip install HTSeq==1.99.2
+
+  ## BedTools: https://github.com/arq5x/bedtools2/releases
+  mkdir -p /opt/bedtools
+  cd /opt/bedtools
+  wget https://github.com/arq5x/bedtools2/releases/download/v2.30.0/bedtools.static.binary
+  mv bedtools.static.binary bedtools
+  chmod ugo+x bedtools
+  ln -s /opt/bedtools/bedtools /usr/local/bin/
+
+  ## macs3: https://github.com/macs3-project/MACS/blob/master/docs/INSTALL.md
+  pip install cython==0.29.24
+  pip install cykhash==1.0.2
+  pip install macs3==3.0.0a6
+
+  ## IDR: https://github.com/nboley/idr/blob/master/README.md
+  mkdir -p /opt/idr
+  cd /opt/idr
+  wget https://github.com/nboley/idr/archive/2.0.2.zip
+  unzip 2.0.2.zip
+  cd idr-2.0.2/
+  python3 setup.py install
+
+  ## deepTools (visualization):
+  pip install py2bit==0.3.0
+  pip install pyBigWig==0.3.18
+  pip install pysam==0.17.0
+  pip install deeptools==3.5.1
+
+
+ ## R install_version then BiocManger (Version 3.12, per BiocManager::version()):
+  Rscript -e 'install.packages("https://cran.r-project.org/src/contrib/Archive/BiocManager/BiocManager_1.30.15.tar.gz")'
+
+  ## DiffBind:
+  ##   should end up w/ version 3.0.15:
+  Rscript -e 'BiocManager::install("DiffBind")'
+
+  ## Chipqc: https://bioconductor.org/packages/release/bioc/html/ChIPQC.html
+  ##   should end up w/ version 1.26.0; depends on DiffBind (so build after DiffBind):
+  Rscript -e 'BiocManager::install("ChIPQC")'
+
+%runscript
+  echo 'Some container programs and their versions:'
+  python3 --version
+  R --version | grep 'R version'
+  samtools --version | grep -v Copyright
+  sambamba --version 2>&1 | grep sambamba | head -n 1
+  fastqc --version
+  echo
+  bowtie --version
+  echo
+  bowtie2 --version
+  echo
+  echo -n 'bwa: '; bwa 2>&1 | grep Version
+  echo -n 'htseq-count: '; htseq-count --version
+  bedtools --version
+  macs3 --version
+  idr --version | grep IDR
+  deeptools --version
+  echo -n 'Bioconductor: '; Rscript -e 'BiocManager::version()'      ## Bioconductor version, not BiocManager version!
+  echo -n 'ChIPQC: '; Rscript -e 'packageVersion("ChIPQC")'
+  echo -n 'DiffBind: '; Rscript -e 'packageVersion("DiffBind")'
+
+%labels
+

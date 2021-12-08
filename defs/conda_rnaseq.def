@@ -41,7 +41,7 @@ From: continuumio/miniconda3:4.10.3
     subread-align -version
 
 %labels
-    Author olaitan.awe@jax.org
+    Author laitanawe@gmail.com
     Version 0.1
 
 %help

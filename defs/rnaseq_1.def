@@ -45,7 +45,7 @@ From: continuumio/miniconda3:4.10.3
     echo -n "STAR: "; STAR --version
 
 %labels
-    Author olaitan.awe@jax.org
+    Author laitanawe@gmail.com
     Version 0.1
 
 %help

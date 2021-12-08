@@ -1,0 +1,20 @@
+==deffile==
+bootstrap: docker
+from: continuumio/miniconda3
+
+%runscript
+echo "This container is based on miniconda3"
+
+%post -c /bin/bash
+    apt update -y
+    conda init bash
+    source ~/.bashrc
+#    conda install -c bioconda/label/cf201901 catch
+#    conda install -c bioconda/label/main catch=1.4.0-0
+    conda install -c bioconda catch=1.1.0-0
+
+%labels
+Author laitanawe@gmail.com
+
+%help
+Help section for this definition file
