@@ -1,0 +1,113 @@
+Bootstrap: docker
+From: debian:stable-20211011-slim
+
+%post
+
+  apt update
+  apt install -y dialog=1.3-20201126-1
+  # Local related configuration
+  apt-get install -y locales
+  echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
+  locale-gen
+  update-locale "LANG=en_US.UTF-8"
+
+  # Utilities needed during this build
+  apt-get install -y wget=1.21-1+b1
+  apt-get install -y zip=3.0-12
+  apt-get install -y perl=5.32.1-4+deb11u2
+
+  #bowtie2: 
+  apt-get install -y build-essential=12.9
+  mkdir -pv /opt/bowtie2
+  cd /opt/bowtie2
+  wget https://downloads.sourceforge.net/project/bowtie-bio/bowtie2/2.4.4/bowtie2-2.4.4-linux-x86_64.zip
+  unzip bowtie2-2.4.4-linux-x86_64.zip
+  rm -v bowtie2-2.4.4-linux-x86_64.zip
+  mv -v bowtie2-2.4.4-linux-x86_64/* .
+  rmdir bowtie2-2.4.4-linux-x86_64
+  ln -s /opt/bowtie2/bowtie2* /usr/local/bin
+
+  #samtools:
+  apt-get install -y samtools=1.11-1
+
+  #FastQC
+  apt-get install -y default-jre=2:1.11-72
+  mkdir -pv /opt/fastqc
+  cd /opt/fastqc
+  wget https://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.11.9.zip
+  unzip fastqc_v0.11.9.zip
+  rm -v fastqc_v0.11.9.zip
+  mv -v FastQC/* .
+  rmdir FastQC
+  chmod ugo+x fastqc
+  ln -s /opt/fastqc/fastqc /usr/local/bin/
+
+  #STAR
+  mkdir -pv /opt/STAR
+  cd /opt/
+  wget https://github.com/alexdobin/STAR/archive/2.7.9a.tar.gz
+  tar -xzf 2.7.9a.tar.gz
+  #cd STAR-2.7.9a
+  rm -v 2.7.9a.tar.gz
+  mv -fv STAR-2.7.9a STAR
+  ln -s /opt/STAR/STAR-2.7.9a/bin/Linux_x86_64/* /usr/local/bin
+
+  #Trim-galore
+  apt-get -y install trim-galore=0.6.6-1
+
+  #Trimmomatic
+  apt-get -y install trimmomatic=0.39+dfsg-2
+
+  #Subread
+  apt-get -y install subread=2.0.1+dfsg-1
+
+  #Rsem
+  apt-get -y install rsem=1.3.3+dfsg-1
+
+  #R
+  apt-get install -y r-base=4.0.4-1
+  apt-get install -y libcurl4-openssl-dev=7.74.0-1.3+b1
+  apt-get install -y libssl-dev=1.1.1k-1+deb11u1
+  
+  #BiocManger for R_4.0.4 (Bioconductor Version 3.12 (BiocManager 1.30.16), per BiocManager::version()):
+  Rscript -e 'install.packages("https://cran.r-project.org/src/contrib/Archive/BiocManager/BiocManager_1.30.15.tar.gz")'
+
+  ## edgeR, limma, (Install edgeR 1st and limma will be automatically installed)
+  Rscript -e 'BiocManager::install("edgeR")'
+
+  ##DESeq2
+  apt-get install -y r-bioc-deseq2=1.30.1+dfsg-1
+
+  ##DexSeq
+  apt-get install -y r-bioc-dexseq=1.36.0+dfsg-1
+
+  ##HTSeq
+  apt-get install -y python3-htseq=0.13.5-1
+  ln -sv /usr/bin/python3.9 /usr/bin/python
+
+%runscript
+    echo "The following RNAseq analysis tools have been installed in this container: "
+
+    echo
+    alias trimmomatic='java -jar /usr/share/java/trimmomatic-0.39.jar'
+    #spit out software versions
+    fastqc --version
+    python --version
+    echo "HTSeq is packaged with python"
+    R --version | head -n 1
+    echo "edgeR, Limma, DESeq2, DEXSeq, ggplot2 are packaged with R"
+    samtools --version | head -n 1
+    bowtie2 --version  | tail -n 10 | head -n 1
+    echo -n "STAR: "; STAR --version
+    echo -n "trim_galore: "; trim_galore --version | head -4 | tail -1
+    bowtie --version | head -n 1
+    echo -n "RSEM: "; rsem-calculate-expression --version
+    echo -n "trimmomatic: "; trimmomatic -version | head -n 1
+    subread-align -version
+
+%labels
+    Author olaitan.awe@jax.org
+    Version 0.1
+
+%help
+    This definition file builds a singularity container for RNAseq analysis.

@@ -1,0 +1,76 @@
+Bootstrap: docker
+From: debian:stable-20211011-slim
+
+%post
+
+  apt update
+  # Local related configuration
+  apt install -y locales
+  echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
+  locale-gen
+  update-locale "LANG=en_US.UTF-8"
+  # Utilities needed during this build
+  apt install -y wget=1.21-1+b1
+  apt install -y zip=3.0-12
+  apt install -y perl=5.32.1-4+deb11u2
+
+  #bowtie2: 
+  apt install -y build-essential=12.9
+  mkdir -pv /opt/bowtie2
+  cd /opt/bowtie2
+  wget https://downloads.sourceforge.net/project/bowtie-bio/bowtie2/2.4.4/bowtie2-2.4.4-linux-x86_64.zip
+  unzip bowtie2-2.4.4-linux-x86_64.zip
+  rm -v bowtie2-2.4.4-linux-x86_64.zip
+  mv -v bowtie2-2.4.4-linux-x86_64/* .
+  rmdir bowtie2-2.4.4-linux-x86_64
+  ln -s /opt/bowtie2/bowtie2* /usr/local/bin
+
+  #samtools:
+  apt install -y samtools=1.11-1
+
+  #FastQC
+  apt install -y default-jre=2:1.11-72
+  mkdir -pv /opt/fastqc
+  cd /opt/fastqc
+  wget https://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.11.9.zip
+  unzip fastqc_v0.11.9.zip
+  rm -v fastqc_v0.11.9.zip
+  mv -v FastQC/* .
+  rmdir FastQC
+  chmod ugo+x fastqc
+  ln -s /opt/fastqc/fastqc /usr/local/bin/
+
+  #STAR
+  mkdir -pv /opt/STAR
+  cd /opt/STAR
+  wget https://github.com/alexdobin/STAR/archive/2.7.9a.tar.gz
+  tar -xzf 2.7.9a.tar.gz
+  #cd STAR-2.7.9a
+  rm -v 2.7.9a.tar.gz
+  mv -v STAR-2.7.9a/* .
+  rmdir STAR-2.7.9a
+  chmod ugo+x STAR?
+  ln -s /opt/fastqc/fastqc /usr/local/bin/
+
+%runscript
+    echo "The following RNAseq analysis tools have been installed in this container: "
+    #echo -n "PATH: " $PATH
+    echo
+    #spit out software versions
+    bowtie2 --version | head -n 1
+    samtools --version | head -n 1
+    fastqc --version
+
+    #echo -n "STAR: "; STAR --version
+    #echo -n "trimmomatic: "; trimmomatic -version | head -n 1
+    #echo -n "trim_galore: "; trim_galore --version | head -4 | tail -1
+    #bowtie1 --version | head -n 1
+    #echo -n "RSEM: "; rsem-calculate-expression --version
+    #subread-align -version
+
+%labels
+    Author olaitan.awe@jax.org
+    Version 0.1
+
+%help
+    This definition file builds a singularity container for RNAseq analysis.

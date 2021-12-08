@@ -1,0 +1,39 @@
+bootstrap: docker
+
+from: ubuntu:16.04
+
+%environment
+    PATH="/usr/local/anaconda/bin:$PATH"
+    
+%post
+    # install debian packages
+    apt-get update
+    apt-get install -y eatmydata
+    eatmydata apt-get install -y wget bzip2 \
+      ca-certificates libglib2.0-0 libxext6 libsm6 libxrender1 \
+      git
+    apt-get clean
+
+    # install anaconda
+    if [ ! -d /usr/local/anaconda ]; then
+         wget https://repo.anaconda.com/miniconda/Miniconda3-py39_4.9.2-Linux-x86_64.sh \
+            -O ~/anaconda.sh && \
+         bash ~/anaconda.sh -b -p /usr/local/anaconda && \
+         rm ~/anaconda.sh
+    fi
+
+    wget -q -O /tmp/libpng12.deb http://mirrors.kernel.org/ubuntu/pool/main/libp/libpng/libpng12-0_1.2.54-1ubuntu1_amd64.deb \
+      && dpkg -i /tmp/libpng12.deb \
+      && rm /tmp/libpng12.deb
+
+    # set anaconda path
+    export PATH="/usr/local/anaconda/bin:$PATH"
+
+	conda config --add channels bioconda
+	conda install -c bioconda cromwell womtool flash2 minimap2=2.17 preseq pandas biopython
+   	conda config --add channels conda-forge
+	# conda config --set channel_priority strict
+	conda install -c r-ggplot2 r-gridextra r-reshape2
+
+%runscript
+	/usr/local/anaconda/bin/mpra "$@"
