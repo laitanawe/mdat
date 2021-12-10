@@ -29,3 +29,5 @@ echo "container: $container"
 ## cat accession_list.txt | xargs singularity exec mycontainer.sif fasterq-dump	--outdir . -e 64
 
 cat $accession_list | xargs -I % bash -c "singularity exec $container fasterq-dump --outdir $outdir -e $cpu %; echo -n 'fasterq-dump process completed for: '%; echo"
+
+## From the command line, ./fasterqdump.sh <path_to_accession_list> <path_to_output_dir>

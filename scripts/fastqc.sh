@@ -24,3 +24,7 @@ echo "container: $container"
 
 singularity exec $container fastqc -t $cpu $file_in
 echo "fastqc process completed for $file_in!"
+
+
+## From the command line
+## for f in fastq_dir/*.fastq; do echo "processing: "$f; ./fastqc.sh $f; done
