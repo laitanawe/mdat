@@ -22,7 +22,7 @@ echo "accession_list: $accession_list"
 outdir=$2
 echo "outdir: $outdir"
 
-container="/projects/researchit/crf/containers/data/defs/sratoolkit.sif"
+container="/container_path/sratoolkit.sif"
 echo "container: $container"
 
 ## E.g: If you have a list of accessions, create fastq dir, you can test if SRA Toolkit works multithread 64cores:
