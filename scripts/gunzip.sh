@@ -13,7 +13,7 @@ echo "filein:$filein"
 gunzip $filein
 
 ## From the command line, it unzips each file in the URL list
-## for f in `ls $path_to_zipped_files`; do echo "unzipping $f" && ./gunzip.sh $f; done
+## for f in `ls $path_to_zipped_files_dir/*.gz`; do echo "unzipping $f" && ./gunzip.sh $f; done
 
 ## You can also use sbatch for job submission
-## for f in `ls $path_to_zipped_files`; do echo "unzipping $f" && sbatch ./gunzip.sh $f; done
+## for f in `ls $path_to_zipped_files_dir/*.gz`; do echo "unzipping $f" && sbatch ./gunzip.sh $f; done
