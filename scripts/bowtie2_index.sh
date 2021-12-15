@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#SBATCH -J bwt2_align #Job Name
+#SBATCH -J bwt2_index #Job Name
 #SBATCH	-N 1 #Number of nodes
 #SBATCH	-q batch #QOS
 #SBATCH	-t 72:00:00 #Time
@@ -16,7 +16,7 @@ echo "cpu:$cpu"
 ram=64
 echo "ram:$ram"
 
-genome_index_prefix='/path/to/databases/GRCm39/bowtie2/GRCm39'
+output_index_dir_name='/path/to/databases/GRCm39/bowtie2/GRCm39'
 echo "genome_index: $genome_index_prefix"
 # /path/to/databases/GRCm39/ contains the reference genome: GRCm39_genomic.fna, .gff, .gtf
 # /path/to/databases/GRCm39/bowtie2/GRCm39*.* are the index files
@@ -24,20 +24,11 @@ echo "genome_index: $genome_index_prefix"
 file_in=$1
 echo "file_in: $file_in"
 
-output_sam="$($file_in/\.fastq/.sam)"
-echo "output_sam: $output_sam"
-
 container="/container_path/rnaseq.sif"
 echo "container: $container"
 
-singularity exec $container bowtie2 --threads $cpu --local -x $genome_index_prefix \
--U $file_in -S $output_sam
-echo "bowtie2 alignment process completed for $file_in!"
-
-#For paired end library layout
-#singularity exec $container bowtie2 -threads $cpu --local -x $genome_index_prefix \
-# -1 "{$file_in}_1" -2 "{$file_in}_2" -S $output_sam
-#echo "bowtie2 alignment process completed for $file_in!"
+singularity exec $container bowtie2-build --threads $cpu $file_in $output_index_dir_name
+echo "bowtie2 index build process completed for $file_in!"
 
 
 ## From the command line
