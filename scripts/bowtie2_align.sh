@@ -24,7 +24,7 @@ echo "genome_index: $genome_index_prefix"
 file_in=$1
 echo "file_in: $file_in"
 
-output_sam="$($file_in/\.fastq/.sam)"
+output_sam="${file_in/\.fastq/.sam}"
 echo "output_sam: $output_sam"
 
 container="/container_path/rnaseq.sif"
