@@ -18,6 +18,8 @@ echo "ram:$ram"
 
 genome_index_prefix='/path/to/databases/GRCm39/bowtie2/GRCm39'
 echo "genome_index: $genome_index_prefix"
+# /path/to/databases/GRCm39/ contains the reference genome: GRCm39_genomic.fna, .gff, .gtf
+# /path/to/databases/GRCm39/bowtie2/GRCm39*.* are the index files 
 
 file_in=$1
 echo "file_in: $file_in"
