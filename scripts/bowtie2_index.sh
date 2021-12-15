@@ -16,7 +16,7 @@ echo "cpu:$cpu"
 ram=64
 echo "ram:$ram"
 
-output_index_dir_name='/path/to/databases/GRCm39/bowtie2/GRCm39'
+output_index_dir_name='/path/to/databases/GRCm39/bowtie2'
 echo "genome_index: $genome_index_prefix"
 # /path/to/databases/GRCm39/ contains the reference genome: GRCm39_genomic.fna, .gff, .gtf
 # /path/to/databases/GRCm39/bowtie2/GRCm39*.* are the index files
