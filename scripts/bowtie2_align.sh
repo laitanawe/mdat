@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#SBATCH -J fastqc #Job Name
+#SBATCH -J bowtie2 #Job Name
 #SBATCH	-N 1 #Number of nodes
 #SBATCH	-q batch #QOS
 #SBATCH	-t 72:00:00 #Time
@@ -25,7 +25,7 @@ echo "file_in: $file_in"
 output_sam="$($file_in/\.fastq/.sam)"
 echo "output_sam: $output_sam"
 
-container="/container_path/fastqc.sif"
+container="/container_path/rnaseq.sif"
 echo "container: $container"
 
 singularity exec $container bowtie2 -threads $cpu --local -x $genome_index_prefix \
