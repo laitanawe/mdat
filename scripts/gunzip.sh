@@ -11,7 +11,7 @@
 filein=$1
 echo "filein:$filein"
 gunzip $filein
-
+echo $filein " unzipped"
 ## From the command line, it unzips each file in the URL list
 ## for f in `ls $path_to_zipped_files_dir/*.gz`; do echo "unzipping $f" && ./gunzip.sh $f; done
 
