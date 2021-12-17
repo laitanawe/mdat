@@ -101,7 +101,7 @@ From: debian:stable-20211011-slim
     echo -n "DESeq2: version"; Rscript -e 'packageVersion("DESeq2")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the DESeq2 version
     echo -n "DEXSeq: version"; Rscript -e 'packageVersion("DEXSeq")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the DEXSeq version
     echo -n "ggplot2: version"; Rscript -e 'packageVersion("ggplot2")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the ggplot2 version
-    samtoools --version | head -n 1
+    samtools --version | head -n 1
     bowtie2 --version  | tail -n 10 | head -n 1
     echo -n "STAR: "; STAR --version
     echo -n "trim_galore: "; trim_galore --version | head -4 | tail -1
