@@ -16,7 +16,7 @@ From: debian:stable-20211011-slim
   apt-get install -y zip=3.0-12
   apt-get install -y perl=5.32.1-4+deb11u2
 
-  #bowtie2: 
+  #bowtie2:
   apt-get install -y build-essential=12.9
   mkdir -pv /opt/bowtie2
   cd /opt/bowtie2
@@ -68,7 +68,7 @@ From: debian:stable-20211011-slim
   apt-get install -y r-base=4.0.4-1
   apt-get install -y libcurl4-openssl-dev=7.74.0-1.3+b1
   apt-get install -y libssl-dev=1.1.1k-1+deb11u1
-  
+
   #BiocManger for R_4.0.4 (Bioconductor Version 3.12 (BiocManager 1.30.16), per BiocManager::version()):
   Rscript -e 'install.packages("https://cran.r-project.org/src/contrib/Archive/BiocManager/BiocManager_1.30.15.tar.gz")'
 
@@ -95,12 +95,12 @@ From: debian:stable-20211011-slim
     python --version
     echo -n "HTSeq: "; htseq-count --version
     R --version | head -n 1
-    echo -n "Bioconductor: version"; Rscript -e 'BiocManager::version()' | sed 's/\[1]//' | sed 's/’//g' | sed 's/‘//g' ## Display the Bioconductor version (formatted)
-    echo -n "edgeR: version"; Rscript -e 'packageVersion("edgeR")' | sed 's/\[1]//' | sed 's/’//g' | sed 's/‘//g' ## Display the edgeR version
-    echo -n "limma: version"; Rscript -e 'packageVersion("limma")' | sed 's/\[1]//' | sed 's/’//g' | sed 's/‘//g' ## Display the limma versin
-    echo -n "DESeq2: version"; Rscript -e 'packageVersion("DESeq2")' | sed 's/\[1]//' | sed 's/’//g' | sed 's/‘//g' ## Display the DESeq2 version
-    echo -n "DEXSeq: version"; Rscript -e 'packageVersion("DEXSeq")' | sed 's/\[1]//' | sed 's/’//g' | sed 's/‘//g' ## Display the DEXSeq version
-    echo -n "ggplot2: version"; Rscript -e 'packageVersion("ggplot2")' | sed 's/\[1]//' | sed 's/’//g' | sed 's/‘//g' ## Display the ggplot2 version
+    echo -n "Bioconductor: version"; Rscript -e 'BiocManager::version()' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the Bioconductor version (formatted)
+    echo -n "edgeR: version"; Rscript -e 'packageVersion("edgeR")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the edgeR version
+    echo -n "limma: version"; Rscript -e 'packageVersion("limma")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the limma versin
+    echo -n "DESeq2: version"; Rscript -e 'packageVersion("DESeq2")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the DESeq2 version
+    echo -n "DEXSeq: version"; Rscript -e 'packageVersion("DEXSeq")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the DEXSeq version
+    echo -n "ggplot2: version"; Rscript -e 'packageVersion("ggplot2")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the ggplot2 version
     samtoools --version | head -n 1
     bowtie2 --version  | tail -n 10 | head -n 1
     echo -n "STAR: "; STAR --version
