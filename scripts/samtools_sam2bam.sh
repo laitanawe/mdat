@@ -26,7 +26,7 @@ container="/container_path/rnaseq.sif"
 echo "container: $container"
 
 singularity exec $container samtools view \
-  -@$cpu -q 10 -b -o "$output_name".bam "$input_sam"
+  -@$cpu -q 10 -b -o "$output_name".bam $input_sam
 echo "samtools sam to bam process completed for $input_sam!"
 
 
