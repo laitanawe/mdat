@@ -29,6 +29,6 @@ singularity exec $container macs3 callpeak -B -t $(cat $input_chipfile) -c $(cat
 echo "macs3 peak calling process completed for sorted bams in $input_chipfile!"
 
 ## From the command line
-## sbatch ./macs3_peakcall.sh
+## sbatch ./macs3_peakcall.sh path_to_chipfile.cfg
 ## singularity exec $container macs3 callpeak -B -t chipfile1.sort.bam chipfile2.sort.bam -c shamfile.sort.bam \
 ## -m "macs3" -f BAM -g mm -q 0.05
