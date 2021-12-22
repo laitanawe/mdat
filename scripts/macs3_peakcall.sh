@@ -19,7 +19,7 @@ echo "ram:$ram"
 input_chipfile=$1
 echo "input_chipfile: $input_chipfile"
 
-container="/container_path/rnaseq.sif"
+container="/container_path/chipseq.sif"
 echo "container: $container"
 
 shamfile="/path/testdata/shamfile.cfg"
