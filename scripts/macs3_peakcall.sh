@@ -25,7 +25,7 @@ echo "container: $container"
 shamfile="/path/testdata/shamfile.cfg"
 
 singularity exec $container macs3 callpeak -B -t $(cat $input_chipfile) -c $(cat $shamfile) \
- -n "macs3" -f BAM -g "mm" -q 0.05
+ -n "macs3" -f BAM -g "mm" -q 0.05 --outdir macs3_outfiles
 echo "macs3 peak calling process completed for sorted bams in $input_chipfile!"
 
 ## From the command line
