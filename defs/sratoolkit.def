@@ -12,7 +12,7 @@ From: debian:stable-20211011-slim
   update-locale "LANG=en_US.UTF-8"
 
   # Utilities needed during this build
-  apt-get install -y wget=1.21-1+b1
+  apt-get install -y wget=1.21-1+deb11u1
   apt-get install -y zip=3.0-12
   apt-get install -y perl=5.32.1-4+deb11u2
 
@@ -66,7 +66,7 @@ From: debian:stable-20211011-slim
 
   #R
   apt-get install -y r-base=4.0.4-1
-  apt-get install -y libcurl4-openssl-dev=7.74.0-1.3+b1
+  apt-get install -y libcurl4-openssl-dev=7.74.0-1.3+deb11u1
   apt-get install -y libssl-dev=1.1.1k-1+deb11u1
 
   #BiocManger for R_4.0.4 (Bioconductor Version 3.12 (BiocManager 1.30.16), per BiocManager::version()):
@@ -74,6 +74,12 @@ From: debian:stable-20211011-slim
 
   ## edgeR, limma, (Install edgeR 1st and limma will be automatically installed)
   Rscript -e 'BiocManager::install("edgeR")'
+
+  ##Tidyverse
+  Rscript -e 'BiocManager::install("tidyverse")'
+
+  ##Compositions
+  Rscript -e 'BiocManager::install("compositions")'
 
   ##DESeq2
   apt-get install -y r-bioc-deseq2=1.30.1+dfsg-1
@@ -110,7 +116,17 @@ From: debian:stable-20211011-slim
     python --version
     echo -n "HTSeq: "; htseq-count --version
     R --version | head -n 1
-    echo "edgeR, Limma, DESeq2, DEXSeq, ggplot2 are packaged with R"
+    #spit out R package versions
+    echo -n "Bioconductor:"; Rscript -e 'BiocManager::version()' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the Bioconductor version (formatted)
+    echo -n "edgeR:"; Rscript -e 'packageVersion("edgeR")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
+    echo -n "limma:"; Rscript -e 'packageVersion("limma")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
+    echo -n "DESeq2:"; Rscript -e 'packageVersion("DESeq2")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
+    echo -n "DEXSeq:"; Rscript -e 'packageVersion("DEXSeq")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
+    echo -n "ggplot2:"; Rscript -e 'packageVersion("ggplot2")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
+    echo -n "tidyverse:"; Rscript -e 'packageVersion("tidyverse")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
+    echo -n "compositions:"; Rscript -e 'packageVersion("compositions")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
+    echo -n "reshape2:"; Rscript -e 'packageVersion("reshape2")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
+    echo -n "readr:"; Rscript -e 'packageVersion("readr")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
     samtools --version | head -n 1
     bowtie2 --version  | tail -n 10 | head -n 1
     echo -n "STAR: "; STAR --version
@@ -119,7 +135,7 @@ From: debian:stable-20211011-slim
     echo -n "RSEM: "; rsem-calculate-expression --version
     echo -n "trimmomatic: "; trimmomatic -version | head -n 1
     fasterq-dump --version | head -2 | tail -1
-    subread-align -version
+    subread-align -version 2>&1 | sed '/^$/d'
 
 %labels
     Author laitanawe@gmail.com

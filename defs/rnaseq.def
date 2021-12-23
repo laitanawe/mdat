@@ -95,12 +95,12 @@ From: debian:stable-20211011-slim
     python --version
     echo -n "HTSeq: "; htseq-count --version
     R --version | head -n 1
-    echo -n "Bioconductor: version"; Rscript -e 'BiocManager::version()' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the Bioconductor version (formatted)
-    echo -n "edgeR: version"; Rscript -e 'packageVersion("edgeR")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the edgeR version
-    echo -n "limma: version"; Rscript -e 'packageVersion("limma")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the limma versin
-    echo -n "DESeq2: version"; Rscript -e 'packageVersion("DESeq2")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the DESeq2 version
-    echo -n "DEXSeq: version"; Rscript -e 'packageVersion("DEXSeq")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the DEXSeq version
-    echo -n "ggplot2: version"; Rscript -e 'packageVersion("ggplot2")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the ggplot2 version
+    echo -n "Bioconductor:"; Rscript -e 'BiocManager::version()' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the Bioconductor version (formatted)
+    echo -n "edgeR:"; Rscript -e 'packageVersion("edgeR")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the edgeR version
+    echo -n "limma:"; Rscript -e 'packageVersion("limma")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the limma versin
+    echo -n "DESeq2:"; Rscript -e 'packageVersion("DESeq2")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the DESeq2 version
+    echo -n "DEXSeq:"; Rscript -e 'packageVersion("DEXSeq")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the DEXSeq version
+    echo -n "ggplot2:"; Rscript -e 'packageVersion("ggplot2")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the ggplot2 version
     samtools --version | head -n 1
     bowtie2 --version  | tail -n 10 | head -n 1
     echo -n "STAR: "; STAR --version
@@ -108,7 +108,7 @@ From: debian:stable-20211011-slim
     bowtie --version | head -n 1
     echo -n "RSEM: "; rsem-calculate-expression --version
     echo -n "trimmomatic: "; trimmomatic -version | head -n 1
-    subread-align -version | sed '/^$/d'
+    subread-align -version 2>&1 | sed '/^$/d'
 
 %labels
     Author laitanawe@gmail.com
