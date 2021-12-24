@@ -130,7 +130,7 @@ From: debian:stable-20211011-slim
     samtools --version | head -n 1
     bowtie2 --version  | tail -n 10 | head -n 1
     echo -n "STAR: "; STAR --version
-    echo -n "trim_galore: "; trim_galore --version | head -4 | tail -1
+    echo -n "trim_galore: "; trim_galore --version | head -4 | tail -1 | sed 's/^ *//'
     bowtie --version | head -n 1
     echo -n "RSEM: "; rsem-calculate-expression --version
     echo -n "trimmomatic: "; trimmomatic -version | head -n 1
@@ -140,6 +140,7 @@ From: debian:stable-20211011-slim
 %labels
     Author laitanawe@gmail.com
     Version 0.1
+    Date dec25_2021
 
 %help
     This definition file builds a singularity container for RNAseq analysis.
