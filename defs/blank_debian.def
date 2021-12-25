@@ -31,11 +31,11 @@ From: debian:stable-20211011-slim
     echo
     #spit out software versions
     #Data Download Tools:
-    echo -n "package1: "; wget --version | head -1
+    echo -n "Package1: "; wget --version | head -1
     zip --version | head -2 | tail -1 | sed 's/^This is //'
     perl --version | head -2 | tail -1 | sed 's/^This is p/P/'
     python3 --version | head -2 | tail -1 | sed 's/^ *//'
-    
+
 
 %labels
     Author laitanawe@gmail.com
