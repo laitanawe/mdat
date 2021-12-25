@@ -1,0 +1,46 @@
+Bootstrap: docker
+From: debian:stable-20211011-slim
+
+%post
+
+  apt update
+  apt-get install -y dialog=1.3-20201126-1
+  # Local related configuration
+  apt-get install -y locales
+  echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
+  locale-gen
+  update-locale "LANG=en_US.UTF-8"
+
+  # Utilities needed during this build
+  apt-get install -y wget=1.21-1+deb11u1
+  apt-get install -y zip=3.0-12
+  apt-get install -y perl=5.32.1-4+deb11u2
+
+  #package1
+  #apt-get install -y package=1.6.12+dfsg-1
+
+  #package2
+  #apt-get install -y package=1.6.12+dfsg-1
+
+  ##python3
+  apt-get install -y python3=3.9.2-3
+
+%runscript
+    echo "The following omic data analysis tools have been installed in this container: "
+
+    echo
+    #spit out software versions
+    #Data Download Tools:
+    echo -n "package1: "; wget --version | head -1
+    zip --version | head -2 | tail -1 | sed 's/^This is //'
+    perl --version | head -2 | tail -1 | sed 's/^This is p/P/'
+    python3 --version | head -2 | tail -1 | sed 's/^ *//'
+    
+
+%labels
+    Author laitanawe@gmail.com
+    Version 0.1
+    Date 25dec2021
+
+%help
+    This definition file builds a singularity container for molecular sequence analysis.
