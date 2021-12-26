@@ -1,0 +1,128 @@
+Bootstrap: docker
+From: debian:stable-20211011-slim
+
+%post
+
+  apt update
+  apt-get install -y dialog=1.3-20201126-1
+  # Local related configuration
+  apt-get install -y locales
+  echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
+  locale-gen
+  update-locale "LANG=en_US.UTF-8"
+
+  # Utilities needed during this build
+  apt-get install -y wget=1.21-1+deb11u1
+  apt-get install -y zip=3.0-12
+  apt-get install -y perl=5.32.1-4+deb11u2
+  apt-get install -y cmake=3.18.4-2+deb11u1
+  apt-get install -y autotools-dev=20180224.1+nmu1
+  apt-get install -y libtool=2.4.6-15
+  apt-get install -y flex=2.6.4-8
+  apt-get install -y bison=2:3.7.5+dfsg-1
+#  apt-get install -y autoconf=2.69-14
+
+
+  ##python3
+  apt-get install -y python3=3.9.2-3
+
+  #R
+  apt-get install -y r-base=4.0.4-1
+  apt-get install -y libcurl4-openssl-dev=7.74.0-1.3+deb11u1
+  apt-get install -y libssl-dev=1.1.1k-1+deb11u1
+
+  #BiocManger for R_4.0.4 (Bioconductor Version 3.12 (BiocManager 1.30.16), per BiocManager::version()):
+  Rscript -e 'install.packages("https://cran.r-project.org/src/contrib/Archive/BiocManager/BiocManager_1.30.15.tar.gz")'
+
+  #Taxonomic Profiling Tools: DADA2, ggplot2, Phyloseq, DECIPHER, RDP classifier datababse
+  #DADA2
+  apt-get install -y r-bioc-dada2=1.18.0+dfsg-1
+
+  ## phyloseq
+  Rscript -e 'BiocManager::install("phyloseq")'
+
+  ##decipher
+  Rscript -e 'BiocManager::install("DECIPHER")'
+
+  ## RDP classifer
+  Rscript -e 'BiocManager::install("rRDP")'
+
+  ##Tidyverse
+  #Rscript -e 'BiocManager::install("tidyverse")'
+
+  ##Compositions
+  #Rscript -e 'BiocManager::install("compositions")'
+
+  #Functional Prediction Tools: HMMER, castor, GAPPA, PICRUSt2, EPA-ng, MinPath
+  #HMMER
+  apt-get install -y hmmer=3.3.2+dfsg-1
+
+  #castor
+  Rscript -e 'BiocManager::install("castor")'
+
+  #gappa
+  mkdir -pv /opt
+  cd /opt
+  wget https://github.com/lczech/gappa/archive/master.zip
+  unzip master.zip
+  mv -fv gappa-master gappa
+  cd gappa
+  make
+  ln -sv /opt/gappa/bin/gappa /usr/bin/
+  rm -v /opt/master.zip
+
+  #epa-ng
+  
+  #PICRUSt2
+
+  #MinPath
+
+  ##SRA Toolkit
+  apt-get install -y sra-toolkit=2.10.9+dfsg-2
+
+  mkdir -pv /root/.ncbi/ && touch /root/.ncbi/user-settings.mkfg
+  echo "## auto-generated configuration file - DO NOT EDIT ##" \
+  "/config/default = \"false\"" \
+  "/repository/user/ad/public/apps/file/volumes/flatAd = \".\"" \
+  "/repository/user/ad/public/apps/refseq/volumes/refseqAd = \".\"" \
+  "/repository/user/ad/public/apps/sra/volumes/sraAd = \".\"" \
+  "/repository/user/ad/public/apps/sraPileup/volumes/ad = \".\"" \
+  "/repository/user/ad/public/apps/sraRealign/volumes/ad = \".\"" \
+  "/repository/user/ad/public/root = \".\"" \
+  "/repository/user/default-path = \"/root/ncbi\"" >> /root/.ncbi/user-settings.mkfg  
+
+%runscript
+    echo "The following 16srRNA metagenomic analysis tools have been installed in this container: "
+
+    echo
+    #spit out software versions
+
+    #Data Download Tools:
+    wget --version | head -1
+    zip --version | head -2 | tail -1 | sed 's/^This is //'
+    perl --version | head -2 | tail -1 | sed 's/^This is p/P/'
+    python3 --version | head -2 | tail -1 | sed 's/^ *//'
+    fasterq-dump --version | head -2 | tail -1
+
+    #Taxonomic Profiling Tools:
+    R --version | head -n 1
+    echo -n "Bioconductor:"; Rscript -e 'BiocManager::version()' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the Bioconductor version (formatted)
+    echo -n "dada2:"; Rscript -e 'packageVersion("dada2")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
+    echo -n "ggplot2:"; Rscript -e 'packageVersion("ggplot2")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
+    echo -n "phyloseq:"; Rscript -e 'packageVersion("phyloseq")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
+    echo -n "DECIPHER:"; Rscript -e 'packageVersion("DECIPHER")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
+    echo -n "rRDP:"; Rscript -e 'packageVersion("rRDP")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
+
+    #Functional Analysis Tools:
+    hmmalign -h | head -2 | tail -1 | sed 's/^# //'
+    echo -n "castor:"; Rscript -e 'packageVersion("castor")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
+    echo -n "gappa: "; gappa --version
+
+
+%labels
+    Author laitanawe@gmail.com
+    Version 0.1
+    Date 25dec2021
+
+%help
+    This definition file builds a singularity container for 16s rRNA metagenomic sequence analysis.
