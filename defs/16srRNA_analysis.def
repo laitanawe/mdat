@@ -46,12 +46,12 @@ From: debian:stable-20211011-slim
   Rscript -e 'BiocManager::install("rRDP")'
 
   ##Tidyverse
-  #Rscript -e 'BiocManager::install("tidyverse")'
+  Rscript -e 'BiocManager::install("tidyverse")'
 
   ##Compositions
-  #Rscript -e 'BiocManager::install("compositions")'
+  Rscript -e 'BiocManager::install("compositions")'
 
-  #Functional Prediction Tools: HMMER, castor, GAPPA, PICRUSt2, EPA-ng, MinPath
+  #Functional Prediction Tools: HMMER, castor, GAPPA, EPA-ng, PICRUSt2, MinPath
   #HMMER
   apt-get install -y hmmer=3.3.2+dfsg-1
 
@@ -81,6 +81,25 @@ From: debian:stable-20211011-slim
   rm -v /opt/master.zip
 
   #PICRUSt2
+  mkdir -pv /opt
+  cd /opt
+  wget https://github.com/picrust/picrust2/archive/v2.4.2.tar.gz
+  tar xvzf v2.4.2.tar.gz
+  cd picrust2-2.4.2/
+  #dependencies:
+  apt-get -y install python3-swiglpk=4.65.1-1
+  apt-get -y install python3-h5py=2.10.0-9
+  apt-get -y install python3-biom-format=2.1.10-1+b1
+  apt-get -y install python3-jinja2=2.11.3-1
+  apt-get -y install python3-joblib=0.17.0-4
+  apt-get -y install python3-numpy=1:1.19.5-1
+  apt-get -y install python3-pandas=1.1.5+dfsg-2
+  apt-get -y install python3-pytest=6.0.2-2
+  apt-get -y install python3-pytest-cov=2.10.1-1
+  apt-get -y install python3-scipy=1.6.0-2
+  apt-get -y install sepp=4.3.10+dfsg-5
+  pip install --editable .
+  ln -sv /usr/bin/pytest-3 /usr/bin/pytest
 
   #MinPath
 
@@ -99,7 +118,7 @@ From: debian:stable-20211011-slim
   "/repository/user/default-path = \"/root/ncbi\"" >> /root/.ncbi/user-settings.mkfg  
 
 %runscript
-    echo "The following 16srRNA metagenomic analysis tools have been installed in this container: "
+    echo "The following 16s rRNA gene sequencing data analysis tools (metagenomics) have been installed in this container: "
 
     echo
     #spit out software versions
@@ -119,12 +138,16 @@ From: debian:stable-20211011-slim
     echo -n "phyloseq:"; Rscript -e 'packageVersion("phyloseq")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
     echo -n "DECIPHER:"; Rscript -e 'packageVersion("DECIPHER")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
     echo -n "rRDP:"; Rscript -e 'packageVersion("rRDP")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
+    echo -n "tidyverse:"; Rscript -e 'packageVersion("tidyverse")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
+    echo -n "compositions:"; Rscript -e 'packageVersion("compositions")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
 
     #Functional Analysis Tools:
     hmmalign -h | head -2 | tail -1 | sed 's/^# //'
     echo -n "castor:"; Rscript -e 'packageVersion("castor")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
     echo -n "gappa: "; gappa --version
     epa-ng --version
+    picrust2_pipeline.py --version
+
 
 %labels
     Author laitanawe@gmail.com
@@ -132,4 +155,4 @@ From: debian:stable-20211011-slim
     Date 25dec2021
 
 %help
-    This definition file builds a singularity container for 16s rRNA metagenomic sequence analysis.
+    This definition file builds a singularity container for 16s rRNA gene sequencing data analysis.
