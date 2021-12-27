@@ -23,6 +23,7 @@ From: debian:stable-20211011-slim
 
   ##python3
   apt-get install -y python3=3.9.2-3
+  ln -sv /usr/bin/python3 /usr/bin/python
 
   #R
   apt-get install -y r-base=4.0.4-1
@@ -102,6 +103,14 @@ From: debian:stable-20211011-slim
   ln -sv /usr/bin/pytest-3 /usr/bin/pytest
 
   #MinPath
+  mkdir -pv /opt/
+  cd /opt
+  wget https://github.com/mgtools/MinPath/archive/master.zip
+  unzip master.zip
+  mv -fv MinPath-master MinPath
+  rm -v master.zip
+  echo "alias MinPath=\"python3 /opt/MinPath/MinPath.py\"" >> /opt/aliases.txt
+  . /opt/aliases.txt
 
   ##SRA Toolkit
   apt-get install -y sra-toolkit=2.10.9+dfsg-2
@@ -147,7 +156,7 @@ From: debian:stable-20211011-slim
     echo -n "gappa: "; gappa --version
     epa-ng --version
     picrust2_pipeline.py --version
-
+    head -n3 /opt/MinPath/MinPath.py | tail -1 | sed 's/current //' | sed 's/^# //'
 
 %labels
     Author laitanawe@gmail.com
