@@ -86,19 +86,20 @@ From: debian:stable-20211011-slim
   cd /opt
   wget https://github.com/picrust/picrust2/archive/v2.4.2.tar.gz
   tar xvzf v2.4.2.tar.gz
+  rm -v /opt/v2.4.2.tar.gz
   cd picrust2-2.4.2/
-  #dependencies:
-  apt-get -y install python3-swiglpk=4.65.1-1
-  apt-get -y install python3-h5py=2.10.0-9
-  apt-get -y install python3-biom-format=2.1.10-1+b1
-  apt-get -y install python3-jinja2=2.11.3-1
-  apt-get -y install python3-joblib=0.17.0-4
-  apt-get -y install python3-numpy=1:1.19.5-1
-  apt-get -y install python3-pandas=1.1.5+dfsg-2
-  apt-get -y install python3-pytest=6.0.2-2
-  apt-get -y install python3-pytest-cov=2.10.1-1
-  apt-get -y install python3-scipy=1.6.0-2
-  apt-get -y install sepp=4.3.10+dfsg-5
+  #dependencies for PICRUSt2: epa-ng=0.3.8, gappa=0.7.0, ##hmmer >=3.1b2,<=3.2.1, ##python >=3.5,<3.9, r-base >=3.5.1, r-castor=1.6.5,   
+  apt-get -y install python3-swiglpk=4.65.1-1 #glpk=4.65
+  apt-get -y install python3-h5py=2.10.0-9 ##h5py >=3.1.0
+  apt-get -y install python3-biom-format=2.1.10-1+b1 #biom-format >=2.1.10
+  apt-get -y install python3-jinja2=2.11.3-1 #jinja2 >=2.11.3
+  apt-get -y install python3-joblib=0.17.0-4 ##joblib >=1.0.1
+  apt-get -y install python3-numpy=1:1.19.5-1 #numpy >=1.19.5
+  apt-get -y install python3-pandas=1.1.5+dfsg-2 #pandas >=1.1.5
+  apt-get -y install python3-pytest=6.0.2-2 #pytest >=4.4.1
+  apt-get -y install python3-pytest-cov=2.10.1-1 #pytest-cov >=2.6.1
+  apt-get -y install python3-scipy=1.6.0-2 #scipy >=1.2.1
+  apt-get -y install sepp=4.3.10+dfsg-5 #sepp=4.3.10
   pip install --editable .
   ln -sv /usr/bin/pytest-3 /usr/bin/pytest
 
@@ -156,7 +157,7 @@ From: debian:stable-20211011-slim
     echo -n "gappa: "; gappa --version
     epa-ng --version
     picrust2_pipeline.py --version
-    head -n3 /opt/MinPath/MinPath.py | tail -1 | sed 's/current //' | sed 's/^# //'
+    head -n3 /opt/MinPath/MinPath.py | tail -1 | sed 's/MinPath/\/opt\/MinPath\/MinPath.py/'| sed 's/current //' | sed 's/^# //'
 
 %labels
     Author laitanawe@gmail.com
