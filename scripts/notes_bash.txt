@@ -1,2 +1,5 @@
 ## Replace string pattern in all .def files in a directory
 for f in *.def; do echo "processing " $f; awk '{sub("Author Olaitan","Author laitanawe@gmail.com")}1' $f > temp.txt && mv temp.txt $f; done
+
+## First day of New Year 2022: Rename directories in present working directory from e.g. 01_jan20XX to 01_jan2022
+for i in `ls`; do echo $i | sed 's/XX/22/' | xargs mv -fv $i ; done
