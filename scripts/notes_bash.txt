@@ -3,3 +3,8 @@ for f in *.def; do echo "processing " $f; awk '{sub("Author Olaitan","Author lai
 
 ## First day of New Year 2022: Rename directories in present working directory from e.g. 01_jan20XX to 01_jan2022
 for i in `ls`; do echo $i | sed 's/XX/22/' | xargs mv -fv $i ; done
+
+## Beginning of New Year 2022: Replicate directories in Pictures: ../../template_NN_mon20XX/01mar/ into each working day in 2022
+## Do this after you cd into a month e.g. assuming you're excluding January. $cd into 01_jan2022
+## Then run this command
+a=2; while [ $a -lt 13 ]; do if [ $a -gt 9 ]; then echo "../"$a && cd "../"$a*; else echo "../0"$a && cd "../0"$a*; fi; for i in $(ls); do echo "now copying into:"$i/ && cp -rv ../../template_NN_mon20XX/01mar/* $i; done; a=`expr $a + 1`; done
