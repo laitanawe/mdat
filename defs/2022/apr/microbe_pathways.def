@@ -1,0 +1,155 @@
+==deffile==
+Bootstrap: docker
+From: ubuntu:18.04
+
+%post
+
+  sudo apt-get update
+
+  ##Data Download:
+  # fasterq-dump: sudo chown -Rv $(whoami):$(whoami) ~/my_shared_data_folder/<dir> #Own the dir b4 writing to it.
+  cd /opt/
+  sudo wget https://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/2.11.0/setup-apt.sh
+  sudo chmod +x setup-apt.sh
+  ./setup-apt.sh
+  source /etc/profile.d/sra-tools.sh
+  vdb-config --interactive
+
+  ## Picrust2 for functional prediction, Metaphlan2 for Metagenome, Qiime2/DADA2 for metagenomic analysis,
+  ## Gephi for network analysis, Qiime2 for 16S
+  # Download RDP trainset: Taxonomy Assignment with the RDP classifier
+  sudo mkdir -pv /opt/rdp
+  cd /opt/rdp
+  sudo wget https://zenodo.org/record/801828/files/rdp_train_set_16.fa.gz
+  sudo wget https://zenodo.org/record/801828/files/rdp_species_assignment_16.fa.gz
+  sudo chown -Rv $(whoami):$(whoami) /opt/rdp
+
+  #Bowtie2 is needed for MetaPhlan2
+  sudo apt-get install -y bowtie2=2.3.4.1-1
+  sudo apt-get install -y metaphlan2=2.7.5-1
+
+  #Qiime
+  sudo apt-get install -y qiime=1.8.0+dfsg-4ubuntu1
+
+
+  # 16S metagenomics: 16S Taxonomic Profiling
+  sudo apt-get install libbz2-dev zlib1g-dev liblzma-dev
+  Rscript -e 'BiocManager::install("Rhtslib", force=TRUE)'
+  Rscript -e 'BiocManager::install("Rsamtools", force=TRUE)'
+  Rscript -e 'BiocManager::install("GenomicAlignments", force=TRUE)'
+  sudo apt-get install libpng-dev
+  Rscript -e 'BiocManager::install("png", force=TRUE)'
+  sudo apt-get install libjpeg-turbo8-dev
+  Rscript -e 'BiocManager::install("jpeg", force=TRUE)'
+  Rscript -e 'BiocManager::install("latticeExtra", force=TRUE)'
+  Rscript -e 'BiocManager::install("ShortRead", force=TRUE)'
+  Rscript -e 'BiocManager::install("dada2", force=TRUE)'
+  #Rscript -e 'source("https://raw.githubusercontent.com/r-lib/remotes/master/install-github.R")$value("benjjneb/dada2@v1.18",dependencies=T,clean=T,upgrade="never")'
+  ##decipher
+  Rscript -e 'BiocManager::install("DECIPHER")'
+
+  # Metagenomics: Functional Profiling
+  #HMMER
+  sudo apt-get install -y hmmer=3.1b2+dfsg-5ubuntu1
+
+  #castor
+  Rscript -e 'BiocManager::install("castor")'
+
+  #gappa
+  mkdir -pv /opt
+  cd /opt
+  sudo wget https://github.com/lczech/gappa/archive/master.zip
+  sudo unzip master.zip
+  sudo mv -fv gappa-master gappa
+  cd gappa
+  sudo chown -Rv $(whoami):$(whoami) $(pwd)
+  make
+  sudo n -sv /opt/gappa/bin/gappa /usr/bin/
+  sudo rm -v /opt/master.zip
+
+  #epa-ng
+  mkdir -pv /opt
+  cd /opt
+  sudo wget https://github.com/Pbdas/epa-ng/archive/master.zip
+  sudo unzip master.zip
+  sudo mv -fv epa-ng-master epa-ng
+  cd epa-ng
+  sudo chown -Rv $(whoami):$(whoami) $(pwd)
+  make
+  sudo ln -sv /opt/epa-ng/bin/epa-ng /usr/bin/
+  sudo rm -v /opt/master.zip
+
+  #MinPath
+  mkdir -pv /opt/
+  cd /opt
+  sudo wget https://github.com/mgtools/MinPath/archive/master.zip
+  sudo unzip master.zip
+  sudo mv -fv MinPath-master MinPath
+  sudo rm -v master.zip
+  sudo chown -Rv $(whoami):$(whoami) /opt/MinPath
+  echo "alias MinPath=\"python3 /opt/MinPath/MinPath.py\"" >> /opt/aliases.txt
+  . /opt/aliases.txt
+
+  #PICRUSt2
+  mkdir -pv /opt
+  cd /opt
+  sudo wget https://github.com/picrust/picrust2/archive/v2.4.2.tar.gz
+  sudo tar xvzf v2.4.2.tar.gz
+  sudo rm -v /opt/v2.4.2.tar.gz
+  cd picrust2-2.4.2/
+  #dependencies for PICRUSt2: epa-ng=0.3.8, gappa=0.7.0, ##hmmer >=3.1b2,<=3.2.1, ##python >=3.5,<3.9, r-base >=3.5.1, r-castor=1.6.5,
+  apt-get -y install python3-swiglpk=1.4.4-2 #glpk=4.65
+  apt-get -y install python3-h5py=2.7.1-2 ##h5py >=3.1.0
+  apt-get -y install python3-biom-format=2.1.5+dfsg-7build2 #biom-format >=2.1.10
+  apt-get -y install python3-jinja2=2.10-1ubuntu0.18.04.1 #jinja2 >=2.11.3
+  apt-get -y install python3-joblib=0.11-1 ##joblib >=1.0.1
+  apt-get -y install python3-numpy=1:1.13.3-2ubuntu1 #numpy >=1.19.5
+  apt-get -y install python3-pandas=0.22.0-4ubuntu1 #pandas >=1.1.5
+  apt-get -y install python3-pytest=3.3.2-2 #pytest >=4.4.1
+  apt-get -y install python3-pytest-cov=2.5.1-1 #pytest-cov >=2.6.1
+  apt-get -y install python3-scipy=0.19.1-2ubuntu1 #scipy >=1.2.1
+
+#  apt-get -y install sepp=4.3.10+dfsg-5 #sepp=4.3.10
+  sudo chown -Rv $(whoami):$(whoami) /opt/picrust2-2.4.2
+  sudo ln -sv /usr/bin/python3.6 /usr/bin/python ## symlink python must point to python3 for PICRUSt2 install
+  python -m pip install pip --upgrade ## needed to successfully installed PICRUSt2
+  pip3 install --editable . ## Running setup.py develop for PICRUSt2
+  ln -sv /usr/bin/pytest-3 /usr/bin/pytest
+
+%runscript
+  echo "This container is based on Ubuntu 18.04"
+  echo
+  #spit out software versions
+
+  #Data Download Tools: These packages come with the VM
+  wget --version | head -1
+  zip --version | head -2 | tail -1 | sed 's/^This is //'
+  perl --version | head -2 | tail -1 | sed 's/^This is p/P/'
+  python --version | head -2 | tail -1 | sed 's/^ *//'
+  python3 --version | head -2 | tail -1 | sed 's/^ *//'
+  fasterq-dump --version | head -2 | tail -1
+
+  #Taxonomic Profiling Tools:
+  R --version | head -n 1
+  echo -n "Bioconductor:"; Rscript -e 'BiocManager::version()' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the Bioconductor version (formatted)
+  echo -n "dada2:"; Rscript -e 'packageVersion("dada2")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
+  echo -n "ggplot2:"; Rscript -e 'packageVersion("ggplot2")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
+  echo -n "phyloseq:"; Rscript -e 'packageVersion("phyloseq")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
+  echo -n "rRDP:"; Rscript -e 'packageVersion("rRDP")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
+  echo -n "DECIPHER:"; Rscript -e 'packageVersion("DECIPHER")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
+
+  #Functional Analysis Tools:
+  hmmalign -h | head -2 | tail -1 | sed 's/^# //'
+  echo -n "castor:"; Rscript -e 'packageVersion("castor")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
+  echo -n "gappa: "; gappa --version
+  epa-ng --version
+  picrust2_pipeline.py --version
+  head -n3 /opt/MinPath/MinPath.py | tail -1 | sed 's/MinPath/\/opt\/MinPath\/MinPath.py/'| sed 's/current //' | sed 's/^# //'
+
+%labels
+  Author laitanawe@gmail.com
+  Version 0.1
+  Date jan15_2022
+
+%help
+  This definition file builds packages for singularity multi-omic data analysis.
