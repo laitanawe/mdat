@@ -1,0 +1,54 @@
+==deffile==
+Bootstrap: docker
+From: ubuntu:18.04
+
+%post
+
+  sudo apt-get update
+  sudo apt install -y dialog=1.3-20201126-1
+  # Local related configuration
+  sudo apt-get install -y locales
+  echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
+  locale-gen
+  update-locale "LANG=en_US.UTF-8"
+
+  # Development Libraries for ubuntu (Try to lock down versions)
+  sudo apt-get install -y \
+    build-essential \
+    libssl-dev \
+    uuid-dev \
+    libgpgme11-dev \
+    squashfs-tools \
+    libseccomp-dev \
+    wget=1.21-1+b1 \
+    apt-get install -y zip=3.0-12 \
+    apt-get install -y perl=5.32.1-4+deb11u2 \
+    pkg-config \
+    git \
+    cryptsetup
+
+  # 16S metagenomics:
+  sudo apt-get install libbz2-dev zlib1g-dev liblzma-dev
+  Rscript -e 'BiocManager::install("Rhtslib", force=TRUE)'
+  Rscript -e 'BiocManager::install("Rsamtools", force=TRUE)'
+  Rscript -e 'BiocManager::install("GenomicAlignments", force=TRUE)'
+  sudo apt-get install libpng-dev
+  Rscript -e 'BiocManager::install("png", force=TRUE)'
+  sudo apt-get install libjpeg-turbo8-dev
+  Rscript -e 'BiocManager::install("jpeg", force=TRUE)'
+  Rscript -e 'BiocManager::install("latticeExtra", force=TRUE)'
+  Rscript -e 'BiocManager::install("ShortRead", force=TRUE)'
+  Rscript -e 'BiocManager::install("dada2", force=TRUE)'
+  #Rscript -e 'source("https://raw.githubusercontent.com/r-lib/remotes/master/install-github.R")$value("benjjneb/dada2@v1.18",dependencies=T,clean=T,upgrade="never")'
+
+
+%runscript
+  echo "This container is based on Ubuntu 18.04"
+
+%labels
+  Author laitanawe@gmail.com
+  Version 0.1
+  Date jan15_2022
+
+%help
+  This definition file builds packages for singularity multi-omic data analysis.
