@@ -33,6 +33,7 @@ From: ubuntu:18.04
   R>library(GAPIT3)
 
   #BLINK
+  Rscript -e 'devtools::install_github("YaoZhou89/BLINK")'
 
 %runscript
   echo "This container is based on Ubuntu 18.04"
@@ -51,6 +52,7 @@ From: ubuntu:18.04
   echo -n "Bioconductor:"; Rscript -e 'BiocManager::version()' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the Bioconductor version (formatted)
   echo -n "ggplot2:"; Rscript -e 'packageVersion("ggplot2")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the ggplot2 version
   echo -n "GAPIT:"; Rscript -e 'packageVersion("GAPIT3")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
+  echo -n "BLINK:"; Rscript -e 'packageVersion("BLINK")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
 
 %labels
   Author laitanawe@gmail.com
