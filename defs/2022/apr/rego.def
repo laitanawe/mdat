@@ -1,0 +1,77 @@
+==deffile==
+Bootstrap: docker
+From: ubuntu:18.04
+
+%post
+
+  sudo apt-get update
+  sudo apt install -y dialog=1.3-20201126-1
+  # Local related configuration
+  sudo apt-get install -y locales
+  echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
+  locale-gen
+  update-locale "LANG=en_US.UTF-8"
+
+  # Development Libraries for ubuntu (Try to lock down versions)
+  sudo apt-get install -y \
+    build-essential \
+    libssl-dev \
+    uuid-dev \
+    libgpgme11-dev \
+    squashfs-tools \
+    libseccomp-dev \
+    wget=1.21-1+b1 \
+    apt-get install -y zip=3.0-12 \
+    apt-get install -y perl=5.32.1-4+deb11u2 \
+    pkg-config \
+    git \
+    cryptsetup
+
+  #Tensorflow, EUtils API, Javascript,
+  #Python3 Virtual Environment
+  sudo apt install python3-venv=3.6.7-1
+  mkdir -pv ~/my_shared_data_folder/tensorflow
+  cd ~/my_shared_data_folder/tensorflow
+  python3 -m venv rego_venv
+  source rego_venv/bin/activate
+  # Tensorflow installation requires pip v19 or higher.
+  pip install --upgrade pip
+  pip install --upgrade tensorflow
+  # If you have a dedicated NVIDIA GPU, install tensorflow-gpu instead.
+  # To verify the Tensorflow installation within the rego_virtual environment,
+  python -c 'import tensorflow as tf; print(tf.__version__)'
+  #Once you are done with your work, type deactivate to return to normal shell
+
+  # Install EUtils into the virtual environment
+  sudo mkdir -pv eutils
+  sudo chown -Rv $(whoami):$(whoami) /opt/eutils
+  cd /opt/eutils
+  sh -c "$(wget -q ftp://ftp.ncbi.nlm.nih.gov/entrez/entrezdirect/install-edirect.sh -O -)"
+  echo "export PATH=\${PATH}:${HOME}/edirect" >> ${HOME}/.bashrc
+  #echo "export PATH=\$PATH:\$HOME/edirect" >> $HOME/.bash_profile
+  export PATH=${PATH}:${HOME}/edirect
+
+%runscript
+  echo "This container is based on Ubuntu 18.04"
+  echo
+  #spit out software versions
+
+  #Data Download Tools: These packages come with the VM
+  wget --version | head -1
+  zip --version | head -2 | tail -1 | sed 's/^This is //'
+  perl --version | head -2 | tail -1 | sed 's/^This is p/P/'
+  python --version | head -2 | tail -1 | sed 's/^ *//'
+  python3 --version | head -2 | tail -1 | sed 's/^ *//'
+  esearch --help | head -1
+
+  #Bionformatics Tools:
+  R --version | head -n 1
+  echo -n "Bioconductor:"; Rscript -e 'BiocManager::version()' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the Bioconductor version (formatted)
+
+%labels
+  Author laitanawe@gmail.com
+  Version 0.1
+  Date jan15_2022
+
+%help
+  This definition file builds packages for multi-omic data analysis.
