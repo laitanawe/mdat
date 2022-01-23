@@ -46,8 +46,9 @@ From: ubuntu:18.04
   #Bionformatics Tools:
   R --version | head -n 1
   echo -n "Bioconductor:"; Rscript -e 'BiocManager::version()' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the Bioconductor version (formatted)
+  echo -n "ggplot2:"; Rscript -e 'packageVersion("ggplot2")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the ggplot2 version
   echo -n "iCluster:"; Rscript -e 'packageVersion("iCluster")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
-
+  
 %labels
   Author laitanawe@gmail.com
   Version 0.1
