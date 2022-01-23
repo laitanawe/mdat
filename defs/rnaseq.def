@@ -97,7 +97,7 @@ From: debian:stable-20211011-slim
     R --version | head -n 1
     echo -n "Bioconductor:"; Rscript -e 'BiocManager::version()' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the Bioconductor version (formatted)
     echo -n "edgeR:"; Rscript -e 'packageVersion("edgeR")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the edgeR version
-    echo -n "limma:"; Rscript -e 'packageVersion("limma")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the limma versin
+    echo -n "limma:"; Rscript -e 'packageVersion("limma")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the limma version
     echo -n "DESeq2:"; Rscript -e 'packageVersion("DESeq2")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the DESeq2 version
     echo -n "DEXSeq:"; Rscript -e 'packageVersion("DEXSeq")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the DEXSeq version
     echo -n "ggplot2:"; Rscript -e 'packageVersion("ggplot2")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the ggplot2 version
@@ -114,6 +114,6 @@ From: debian:stable-20211011-slim
     Author laitanawe@gmail.com
     Version 0.1
     Date dec25_2021
-    
+
 %help
     This definition file builds a singularity container for RNAseq analysis.
