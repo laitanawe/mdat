@@ -28,9 +28,68 @@ From: ubuntu:18.04
     cryptsetup
 
 
-  #Trimmomatic, Fastqc, Python, HTSeq, R, Bioconductor, edgeR, limma, DESeq2, ggplot2, samtools, bowtie, bowtie2, STAR, trimgalore, RSEM, subread-align, tidyverse.
+  #FastQC, Trimmomatic, subread-align, R, Bioconductor, edgeR, limma, ggplot2, Python, DESeq2, samtools, RSEM, STAR, trimgalore, tidyverse, bowtie, bowtie2, HTSeq.
 
+  ##FastQC, Trimmomatic, Subread and edgeR under R/Python
+  #FastQC
+  apt-get install -y default-jre=2:1.11-68ubuntu1~18.04.1
+  sudo mkdir -pv /opt/fastqc
+  cd /opt/fastqc
+  sudo chown -Rv $(whoami):$(whoami) /opt/fastqc
+  wget https://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.11.9.zip
+  unzip fastqc_v0.11.9.zip
+  rm -v fastqc_v0.11.9.zip
+  mv -v FastQC/* .
+  rmdir -v FastQC
+  chmod -v ugo+x fastqc
+  sudo ln -sv /opt/fastqc/fastqc /usr/local/bin/
 
+  #Trimmomatic
+  apt-get -y install trimmomatic=0.36+dfsg-3
+
+  #Subread
+  apt-get -y install subread=1.6.0+dfsg-1
+
+  ## edgeR, limma, (Install edgeR 1st and limma will be automatically installed)
+  Rscript -e 'BiocManager::install("edgeR")'
+
+  ##DESeq2
+  Rscript -e 'BiocManager::install("DESeq2")'
+
+  #samtools:
+  apt-get install -y samtools=1.7-1
+
+  #Rsem
+  apt-get -y install rsem=1.2.31+dfsg-1
+
+  #STAR
+  cd /opt/
+  sudo wget https://github.com/alexdobin/STAR/archive/2.7.9a.tar.gz
+  sudo tar -xzf 2.7.9a.tar.gz
+  sudo rm -v 2.7.9a.tar.gz
+  sudo mv -fv STAR-2.7.9a STAR
+  sudo chown -Rv $(whoami):$(whoami) /opt/STAR
+  sudo ln -sv /opt/STAR/bin/Linux_x86_64/* /usr/local/bin
+
+  #bowtie
+  apt-get install -y bowtie=1.2.2+dfsg-2
+
+  #bowtie2:
+  apt-get install -y build-essential=12.4ubuntu1
+  cd /opt/
+  sudo wget https://downloads.sourceforge.net/project/bowtie-bio/bowtie2/2.4.4/bowtie2-2.4.4-linux-x86_64.zip
+  sudo unzip bowtie2-2.4.4-linux-x86_64.zip
+  sudo rm -v bowtie2-2.4.4-linux-x86_64.zip
+  sudo mv -fv bowtie2-2.4.4-linux-x86_64/* bowtie2
+  sudo chown -Rv $(whoami):$(whoami) /opt/bowtie2
+  sudo ln -sv /opt/bowtie2/bowtie2* /usr/local/bin
+
+  ##HTSeq
+  #apt-get install -y python3-htseq=0.13.5-1
+  #sudo ln -sv /usr/bin/python3.9 /usr/bin/python
+
+  #Trim-galore
+  #apt-get -y install trim-galore=0.6.6-1
 
 %runscript
   echo "This container is based on Ubuntu 18.04"
@@ -47,7 +106,20 @@ From: ubuntu:18.04
   #Bionformatics Tools:
   R --version | head -n 1
   echo -n "Bioconductor:"; Rscript -e 'BiocManager::version()' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the Bioconductor version (formatted)
-  echo -n "ggplot2:"; Rscript -e 'packageVersion("ggplot2")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the ggplot2 version
+  echo -n "ggplot2:"; Rscript -e 'packageVersion("ggplot2")' | sed 's/\[1]//' | sed 's/‘//g' echo -n "tidyverse:"; Rscript -e 'packageVersion("tidyverse")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
+
+  fastqc --version
+  echo -n "DESeq2:"; Rscript -e 'packageVersion("DESeq2")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the DESeq2 version
+  samtools --version | head -n 1
+  bowtie2 --version  | tail -n 10 | head -n 1
+  echo -n "STAR: "; STAR --version
+  bowtie --version | head -n 1
+  echo -n "RSEM: "; rsem-calculate-expression --version
+  echo -n "trimmomatic: "; trimmomatic -version | head -n 1
+  subread-align -version 2>&1 | sed '/^$/d'
+
+  echo -n "HTSeq: "; htseq-count --version
+  echo -n "trim_galore: "; trim_galore --version | head -4 | tail -1 | sed 's/^ *//'
 
 %labels
   Author laitanawe@gmail.com
