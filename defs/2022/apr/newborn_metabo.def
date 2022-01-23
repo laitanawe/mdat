@@ -85,8 +85,8 @@ From: ubuntu:18.04
   sudo ln -sv /opt/bowtie2/bowtie2* /usr/local/bin
 
   ##HTSeq
-  #apt-get install -y python3-htseq=0.13.5-1
-  #sudo ln -sv /usr/bin/python3.9 /usr/bin/python
+  apt-get install -y python-htseq=0.6.1p1-4build1
+  sudo ln -sv /usr/bin/python3.9 /usr/bin/python
 
   #Trim-galore
   #apt-get -y install trim-galore=0.6.6-1
