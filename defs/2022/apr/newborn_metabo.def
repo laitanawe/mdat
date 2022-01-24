@@ -39,7 +39,7 @@ From: ubuntu:18.04
   wget https://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.11.9.zip
   unzip fastqc_v0.11.9.zip
   rm -v fastqc_v0.11.9.zip
-  mv -v FastQC/* .
+  mv -fv FastQC/* .
   rmdir -v FastQC
   chmod -v ugo+x fastqc
   sudo ln -sv /opt/fastqc/fastqc /usr/local/bin/

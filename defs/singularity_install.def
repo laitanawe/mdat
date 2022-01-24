@@ -1,2 +1,3 @@
 Ubuntu 18.04
-apt-get install -y singularity-container
+apt-get install -y singularity-container=2.4.2-4
+apt-get install -y docker=1.5-1build1
