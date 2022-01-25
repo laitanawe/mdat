@@ -50,6 +50,10 @@ From: ubuntu:18.04
   pip install --upgrade pandas
   # Install Biopython into the virtual environment
   pip install --upgrade biopython
+  # Install Seaborn into the virtual Environment
+  pip install seaborn
+  # Install BLAST into the virtual Environment
+  apt-get install -y ncbi-blast+=2.6.0-1
 
 %runscript
   echo "This container is based on Ubuntu 18.04"
@@ -67,6 +71,8 @@ From: ubuntu:18.04
   echo -n "Scipy: "; python -c 'import scipy as sc; print(sc.__version__)' 2>&1 | tail -1
   echo -n "Pandas: "; python -c 'import pandas as pd; print(pd.__version__)' 2>&1 | tail -1
   echo -n "BioPython: "; python -c 'import biopython as bio; print(bio.__version__)'
+  echo -n "Seaborn: "; python -c 'import seaborn as sea; print(sea.__version__)'
+  blastx -h | tail -3 | head -1 | sed 's/^ *Translated Query-Protein Subject B/B/'
 
   #Bionformatics Tools:
   R --version | head -n 1
