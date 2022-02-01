@@ -1,10 +1,8 @@
-# RNA-seq basics
-
-# WORK IN PROGRESS
+# RNA-seq Analysis
 
 ---
 
-### How to run a basic bulk RNA-seq analysis on Sumner
+### How to run a basic bulk RNA-seq analysis
 
 ---
 
