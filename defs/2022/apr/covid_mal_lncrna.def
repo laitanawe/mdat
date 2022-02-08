@@ -27,28 +27,28 @@ From: ubuntu:18.04
     git \
     cryptsetup
 
-    ##FastQC, Trimmomatic, Subread and edgeR under R/Python
-    #FastQC
-    apt-get install -y default-jre=2:1.11-68ubuntu1~18.04.1
-    sudo mkdir -pv /opt/fastqc
-    cd /opt/fastqc
-    sudo chown -Rv $(whoami):$(whoami) /opt/fastqc
-    wget https://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.11.9.zip
-    unzip fastqc_v0.11.9.zip
-    rm -v fastqc_v0.11.9.zip
-    mv -v FastQC/* .
-    rmdir -v FastQC
-    chmod -v ugo+x fastqc
-    sudo ln -sv /opt/fastqc/fastqc /usr/local/bin/
+  ##FastQC, Trimmomatic, Subread and edgeR under R/Python
+  #FastQC
+  apt-get install -y default-jre=2:1.11-68ubuntu1~18.04.1
+  sudo mkdir -pv /opt/fastqc
+  cd /opt/fastqc
+  sudo chown -Rv $(whoami):$(whoami) /opt/fastqc
+  wget https://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.11.9.zip
+  unzip fastqc_v0.11.9.zip
+  rm -v fastqc_v0.11.9.zip
+  mv -v FastQC/* .
+  rmdir -v FastQC
+  chmod -v ugo+x fastqc
+  sudo ln -sv /opt/fastqc/fastqc /usr/local/bin/
 
-    #Trimmomatic
-    apt-get -y install trimmomatic=0.36+dfsg-3
+  #Trimmomatic
+  apt-get -y install trimmomatic=0.36+dfsg-3
 
-    #Subread
-    apt-get -y install subread=1.6.0+dfsg-1
+  #Subread
+  apt-get -y install subread=1.6.0+dfsg-1
 
-    ## edgeR, limma, (Install edgeR 1st and limma will be automatically installed)
-    Rscript -e 'BiocManager::install("edgeR")'
+  ## edgeR, limma, (Install edgeR 1st and limma will be automatically installed)
+  Rscript -e 'BiocManager::install("edgeR")'
 
 %runscript
   echo "This container is based on Ubuntu 18.04"

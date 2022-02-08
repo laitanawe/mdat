@@ -35,6 +35,45 @@ From: ubuntu:18.04
   #BLINK
   Rscript -e 'devtools::install_github("YaoZhou89/BLINK")'
 
+  ##FastQC, Trimmomatic, R, ggplot2, DESeq2, samtools, HISAT2, featureCounts
+  #FastQC
+  apt-get install -y default-jre=2:1.11-68ubuntu1~18.04.1
+  sudo mkdir -pv /opt/fastqc
+  cd /opt/fastqc
+  sudo chown -Rv $(whoami):$(whoami) /opt/fastqc
+  wget https://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.11.9.zip
+  unzip fastqc_v0.11.9.zip
+  rm -v fastqc_v0.11.9.zip
+  mv -v FastQC/* .
+  rmdir -v FastQC
+  chmod -v ugo+x fastqc
+  sudo ln -sv /opt/fastqc/fastqc /usr/local/bin/
+
+  #Trimmomatic
+  apt-get -y install trimmomatic=0.36+dfsg-3
+
+  #Cutadapt
+  apt-get -y install cutadapt=1.15-1
+
+  ##DESeq2
+  Rscript -e 'BiocManager::install("DESeq2")'
+
+  ## edgeR, limma, (Install edgeR 1st and limma will be automatically installed)
+  Rscript -e 'BiocManager::install("edgeR")'
+
+  #samtools:
+  apt-get install -y samtools=1.7-1
+
+  #HISAT2:
+  apt-get install -y hisat2=2.1.0-1
+
+  #Subread, featureCounts
+  apt-get -y install subread=1.6.0+dfsg-1
+
+  ##HTSeq : I'm unable to get this to work on Ubuntu 18.04
+  apt-get install -y python3-htseq=0.13.5-1
+  ln -sv /usr/bin/python3.9 /usr/bin/python
+
 %runscript
   echo "This container is based on Ubuntu 18.04"
   echo
@@ -48,11 +87,23 @@ From: ubuntu:18.04
   python3 --version | head -2 | tail -1 | sed 's/^ *//'
 
   #Bionformatics Tools:
+  alias trimmomatic='java -jar /usr/share/java/trimmomatic-0.36.jar'
+  echo -n "trimmomatic: "; trimmomatic -version | head -n 1
+  fastqc --version
   R --version | head -n 1
   echo -n "Bioconductor:"; Rscript -e 'BiocManager::version()' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the Bioconductor version (formatted)
   echo -n "ggplot2:"; Rscript -e 'packageVersion("ggplot2")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the ggplot2 version
   echo -n "GAPIT:"; Rscript -e 'packageVersion("GAPIT3")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
   echo -n "BLINK:"; Rscript -e 'packageVersion("BLINK")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
+  echo -n "Cutadapt: "; cutadapt --version
+  echo -n "DESeq2:"; Rscript -e 'packageVersion("DESeq2")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
+  samtools --version | head -n 1
+  hisat2 --version | head -1
+  subread-align -version 2>&1 | sed '/^$/d'
+  featureCounts -v 2>&1 | sed '/^$/d'
+  echo -n "edgeR:"; Rscript -e 'packageVersion("edgeR")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the edgeR version
+  echo -n "limma:"; Rscript -e 'packageVersion("limma")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the limma version
+  echo -n "HTSeq: "; htseq-count --version
 
 %labels
   Author laitanawe@gmail.com
