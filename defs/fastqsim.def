@@ -18,6 +18,8 @@ From: debian:stable-20211011-slim
 
 
   # FASTQSim https://github.com/annashcherbina/FASTQSim
+  # Javac: You may have to install openjdk-devel
+  # apt-get install -y openjdk-11-jdk=11.0.14+9-1~deb11u1
 
   #samtools:
   apt-get install -y samtools=1.11-1
