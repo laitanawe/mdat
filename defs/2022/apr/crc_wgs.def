@@ -80,10 +80,9 @@ From: ubuntu:18.04
   echo "alias MinPath=\"python3 /opt/MinPath/MinPath.py\"" >> /opt/aliases.txt
   . /opt/aliases.txt
 
-  #To Install: Soap Denovo, Genemark and Metarep
+  #To Install: Soap Denovo, Genemark and METAREP are web browsers, no need of installation.
   #soapdenovo2
   apt-get -y install soapdenovo2=241+dfsg-1
-
 
   #PICRUSt2
   mkdir -pv /opt
