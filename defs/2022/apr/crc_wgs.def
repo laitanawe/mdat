@@ -81,6 +81,10 @@ From: ubuntu:18.04
   . /opt/aliases.txt
 
   #To Install: Soap Denovo, Genemark and Metarep
+  #soapdenovo2
+  apt-get -y install soapdenovo2=241+dfsg-1
+
+
   #PICRUSt2
   mkdir -pv /opt
   cd /opt
