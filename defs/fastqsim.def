@@ -65,6 +65,7 @@ From: debian:stable-20211011-slim
     perl --version | head -2 | tail -1 | sed 's/^This is p/P/'
     python3 --version | head -2 | tail -1 | sed 's/^ *//'
     python2 --version | head -2 | tail -1 | sed 's/^ *//'
+    pip2 --version
     samtools --version | head -n 1
     echo -n "Numpy: "; python2 -c 'import numpy as np; print(np.__version__)'
     echo -n "scikit-learn: "; python2 -c 'import sklearn as sk; print(sk.__version__)'
