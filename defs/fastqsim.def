@@ -29,6 +29,14 @@ From: debian:stable-20211011-slim
 
   #python2
   apt-get install -y python2
+  ln -sv /usr/bin/python2 /usr/bin/python
+
+  #pip2
+  mkdir -pv /opt/pip2
+  cd /opt/pip2
+  wget https://bootstrap.pypa.io/pip/2.7/get-pip.py
+  python get-pip.py
+  pip2 install numpy==1.15.0
 
   ##python3
   apt-get install -y python3=3.9.2-3
@@ -58,9 +66,10 @@ From: debian:stable-20211011-slim
     python3 --version | head -2 | tail -1 | sed 's/^ *//'
     python2 --version | head -2 | tail -1 | sed 's/^ *//'
     samtools --version | head -n 1
-    echo -n "scikit-learn: "; python3 -c 'import sklearn as sk; print(sk.__version__)'
-    echo -n "Scipy: "; python3 -c 'import scipy as sc; print(sc.__version__)' 2>&1 | tail -1
-    echo -n "Matplotlib: "; python3 -c 'import matplotlib as mat; print(mat.__version__)'
+    echo -n "Numpy: "; python2 -c 'import numpy as np; print(np.__version__)'
+    echo -n "scikit-learn: "; python2 -c 'import sklearn as sk; print(sk.__version__)'
+    echo -n "Scipy: "; python2 -c 'import scipy as sc; print(sc.__version__)' 2>&1 | tail -1
+    echo -n "Matplotlib: "; python2 -c 'import matplotlib as mat; print(mat.__version__)'
     blastx -h | tail -3 | head -1 | sed 's/^ *Translated Query-Protein Subject B/B/'
 
 
