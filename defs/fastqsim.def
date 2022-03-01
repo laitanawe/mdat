@@ -53,6 +53,8 @@ From: debian:stable-20211011-slim
   pip install --upgrade scikit-learn
   ## Install matplotlib
   pip install --upgrade matplotlib
+  # Install Pandas
+  pip install --upgrade pandas
 
 %runscript
     echo "The following omic data analysis tools have been installed in this container: "
@@ -70,6 +72,7 @@ From: debian:stable-20211011-slim
     echo -n "Numpy: "; python2 -c 'import numpy as np; print(np.__version__)'
     echo -n "scikit-learn: "; python2 -c 'import sklearn as sk; print(sk.__version__)'
     echo -n "Scipy: "; python2 -c 'import scipy as sc; print(sc.__version__)' 2>&1 | tail -1
+    echo -n "Pandas: "; python2 -c 'import pandas as pd; print(pd.__version__)'
     echo -n "Matplotlib: "; python2 -c 'import matplotlib as mat; print(mat.__version__)'
     blastx -h | tail -3 | head -1 | sed 's/^ *Translated Query-Protein Subject B/B/'
 
