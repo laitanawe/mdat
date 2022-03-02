@@ -1,0 +1,39 @@
+Mar-02 17:51:17.935 [main] DEBUG nextflow.cli.Launcher - $> nextflow run example1.nf
+Mar-02 17:51:18.113 [main] INFO  nextflow.cli.CmdRun - N E X T F L O W  ~  version 21.04.3
+Mar-02 17:51:18.168 [main] INFO  nextflow.cli.CmdRun - Launching `example1.nf` [distracted_perlman] - revision: 1fb824f0cd
+Mar-02 17:51:18.311 [main] DEBUG nextflow.plugin.PluginsFacade - Setting up plugin manager > mode=prod; plugins-dir=/home/laitanawe/.nextflow/plugins
+Mar-02 17:51:18.314 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins default=[]
+Mar-02 17:51:18.320 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins local root: .nextflow/plr/empty
+Mar-02 17:51:18.336 [main] INFO  org.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
+Mar-02 17:51:18.338 [main] INFO  org.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
+Mar-02 17:51:18.350 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.4.1 in 'deployment' mode
+Mar-02 17:51:18.368 [main] INFO  org.pf4j.AbstractPluginManager - No plugins
+Mar-02 17:51:18.469 [main] DEBUG nextflow.Session - Session uuid: 82faff27-2f93-4901-8307-1eeaee0c6953
+Mar-02 17:51:18.469 [main] DEBUG nextflow.Session - Run name: distracted_perlman
+Mar-02 17:51:18.472 [main] DEBUG nextflow.Session - Executor pool size: 8
+Mar-02 17:51:18.524 [main] DEBUG nextflow.cli.CmdRun - 
+  Version: 21.04.3 build 5560
+  Created: 21-07-2021 15:09 UTC (16:09 WAST)
+  System: Linux 4.15.0-60-generic
+  Runtime: Groovy 3.0.7 on OpenJDK 64-Bit Server VM 1.8.0_222-8u222-b10-1ubuntu1~16.04.1-b10
+  Encoding: UTF-8 (UTF-8)
+  Process: 12839@laitanawe-Latitude-E6430 [127.0.1.1]
+  CPUs: 8 - Mem: 15.6 GB (595 MB) - Swap: 15.9 GB (15.9 GB)
+Mar-02 17:51:18.596 [main] DEBUG nextflow.Session - Work-dir: /home/laitanawe/github/midat/pipelines/nf/nf_examples/work [ext2/ext3]
+Mar-02 17:51:18.596 [main] DEBUG nextflow.Session - Script base path does not exist or is not a directory: /home/laitanawe/github/midat/pipelines/nf/nf_examples/bin
+Mar-02 17:51:18.613 [main] DEBUG nextflow.executor.ExecutorFactory - Extension executors providers=[]
+Mar-02 17:51:18.646 [main] DEBUG nextflow.Session - Observer factory: DefaultObserverFactory
+Mar-02 17:51:18.975 [main] DEBUG nextflow.Session - Session start invoked
+Mar-02 17:51:19.768 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
+Mar-02 17:51:19.800 [main] DEBUG nextflow.Session - Workflow process names [dsl1]: 
+Mar-02 17:51:19.804 [main] INFO  nextflow.script.BaseScript - Item 1 is 3!
+Mar-02 17:51:19.804 [main] INFO  nextflow.script.BaseScript - Item 2 is 7!
+Mar-02 17:51:19.804 [main] INFO  nextflow.script.BaseScript - Item 3 is 4!
+Mar-02 17:51:19.805 [main] INFO  nextflow.script.BaseScript - Item 4 is 8!
+Mar-02 17:51:19.807 [main] DEBUG nextflow.script.ScriptRunner - > Await termination 
+Mar-02 17:51:19.807 [main] DEBUG nextflow.Session - Session await
+Mar-02 17:51:19.807 [main] DEBUG nextflow.Session - Session await > all process finished
+Mar-02 17:51:19.807 [main] DEBUG nextflow.Session - Session await > all barriers passed
+Mar-02 17:51:19.825 [main] DEBUG nextflow.trace.WorkflowStatsObserver - Workflow completed > WorkflowStats[succeededCount=0; failedCount=0; ignoredCount=0; cachedCount=0; pendingCount=0; submittedCount=0; runningCount=0; retriesCount=0; abortedCount=0; succeedDuration=0ms; failedDuration=0ms; cachedDuration=0ms;loadCpus=0; loadMemory=0; peakRunning=0; peakCpus=0; peakMemory=0; ]
+Mar-02 17:51:20.017 [main] DEBUG nextflow.CacheDB - Closing CacheDB done
+Mar-02 17:51:20.047 [main] DEBUG nextflow.script.ScriptRunner - > Execution complete -- Goodbye
