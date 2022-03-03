@@ -27,7 +27,8 @@ curl -s https://get.nextflow.io| bash
 Step4:
 - Link the nextflow binary to your bin directory
 ```
-ln -s "$PWD/nextflow" ~/bin/nextflow~/opt/nextflow/nextflow self-update
+ln -s "$PWD/nextflow" ~/bin/nextflow
+~/opt/nextflow/nextflow self-update
 ```
 
 Step5:
