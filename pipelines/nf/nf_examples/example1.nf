@@ -7,3 +7,11 @@ for ( num : list_of_num ) {
 counter += 1
 println ("Item $counter is $num!")
 }
+
+/* Let us create a channel of paths that will be used for mapping reads to a reference
+
+*/
+workflow {
+ch_input = []
+
+}
