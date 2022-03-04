@@ -3,7 +3,7 @@ Nextflow is a workflow engine for data analysis pipelines, with strong focus on 
 
 ## Installation
 
-In case you're trying to install Nextflow on a machine, please note that Nextflow requires java8 or later.
+In case you're trying to install Nextflow, it must be installed on a Unix-like machine. Please note that Nextflow requires java8 or later. Docker engine is also a requirement.
 Here are the steps for Nextflow installation in your home directory.
 
 Step1:
