@@ -35,5 +35,5 @@ ln -s "$PWD/nextflow" ~/bin/nextflow
 Step5:
 - Check the version of Nextflow to confirm that it's installed
 ```
-nextflow-v
+nextflow -v
 ```
