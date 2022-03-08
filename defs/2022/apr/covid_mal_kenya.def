@@ -28,6 +28,9 @@ From: ubuntu:18.04
     cryptsetup
 
   #GAPIT3
+  sudo Rscript -e 'install.packages("nloptr")'
+  sudo Rscript -e 'install.packages("rgl")'
+
   Rscript -e 'install.packages("devtools")'
   Rscript -e 'devtools::install_github("jiabowang/GAPIT3",force=TRUE)'
   R>library(GAPIT3)

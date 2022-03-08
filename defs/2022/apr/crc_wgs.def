@@ -7,6 +7,8 @@ From: ubuntu:18.04
   sudo apt-get update
 
   ##Data Download:
+  # Apt-get method
+  # sudo apt-get -y install sra-toolkit=2.8.2-5+dfsg-1
   # fasterq-dump: sudo chown -Rv $(whoami):$(whoami) ~/my_shared_data_folder/<dir> #Own the dir b4 writing to it.
   cd /opt/
   sudo wget https://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/2.11.0/setup-apt.sh
