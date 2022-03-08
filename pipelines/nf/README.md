@@ -10,7 +10,6 @@ Step1:
 - Make a directory for nextflow in your home directory
 ```
 mkdir -pv ~/opt/nextflow
-rm -rfv ~/opt/nextflow/*
 ```
 
 Step2:
