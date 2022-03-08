@@ -112,6 +112,11 @@ From: ubuntu:18.04
   pip3 install --editable . ## Running setup.py develop for PICRUSt2
   ln -sv /usr/bin/pytest-3 /usr/bin/pytest
 
+  ## Phyloseq
+  sudo Rscript -e 'BiocManager::install("phyloseq")'
+  ## rRDP
+  sudo Rscript -e 'BiocManager::install("rRDP")'
+
 %runscript
   echo "This container is based on Ubuntu 18.04"
   echo
