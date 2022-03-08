@@ -17,13 +17,20 @@ process my_fun_process {
 //Within the process, we can specify the input type and the name of the variable. The same applies to output. Note that input is not manadatory in a process but output is mandatory.
 
   input:
+    val inflexion
 
-  input:
+  output:
+    stdout
+
+
+  // '$' variable interpolation:
 
   shell:
-
-    // '$' variable interpolation:
-    println("Interpolate: ")
+  // Groovy code can go anywhere outside of the three shell quotes!
+  println("Interpolate: $inflexion")
+    '''
+    echo -n "Interpolate Groovy: !{inflexion} and I'm $(whoami) in the working directory $PWD"
+    '''
 
   //baseDir = "$PWD"
 
