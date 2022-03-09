@@ -56,6 +56,9 @@ From: debian:stable-20211011-slim
   # Install Pandas
   pip install --upgrade pandas
 
+  # OpenJDK-11-JRE v11 and OpenJDK-11-JDK v11
+  apt-get install -y openjdk-11-jre=11.0.14+9-1~deb11u1 openjdk-11-jdk=11.0.14+9-1~deb11u1
+
 %runscript
     echo "The following omic data analysis tools have been installed in this container: "
 
@@ -74,6 +77,7 @@ From: debian:stable-20211011-slim
     echo -n "Scipy: "; python2 -c 'import scipy as sc; print(sc.__version__)' 2>&1 | tail -1
     echo -n "Pandas: "; python2 -c 'import pandas as pd; print(pd.__version__)'
     echo -n "Matplotlib: "; python2 -c 'import matplotlib as mat; print(mat.__version__)'
+    java --version | head -1
     blastx -h | tail -3 | head -1 | sed 's/^ *Translated Query-Protein Subject B/B/'
 
 
