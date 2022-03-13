@@ -37,18 +37,24 @@ From: ubuntu:18.04
   # Tensorflow installation requires pip v19 or higher.
   pip install --upgrade pip
   pip install --upgrade tensorflow
+
   # If you have a dedicated NVIDIA GPU, install tensorflow-gpu instead.
   # To verify the Tensorflow installation within the rego_virtual environment,
   python -c 'import tensorflow as tf; print(tf.__version__)'
   #Once you are done with your work, type deactivate to return to normal shell
 
   # Install numpy into the virtual environment, numpy already installed
+  #apt-get install -y python3-numpy=1:1.13.3-2ubuntu1
   pip install --upgrade numpy
 
   # Install scikit (SciPy is auto-installed and it contains numpy functions) into the virtual environment
+  #apt-get install -y python3-scipy=0.19.1-2ubuntu1
+  #apt-get install -y python3-matplotlib=2.1.1-2ubuntu3
+
   pip install --upgrade scikit-learn
 
   # Install pandas into the virtual environment
+  #apt-get install -y python3-pandas=0.22.0-4
   pip install --upgrade pandas
 
   # Install Biopython into the virtual environment
@@ -56,6 +62,7 @@ From: ubuntu:18.04
   #pip install --upgrade biopython
 
   # Install Seaborn into the virtual Environment
+  #apt-get install -y python3-seaborn=0.8.0-1
   pip install seaborn
 
   # Install BLAST into the virtual Environment
