@@ -25,4 +25,4 @@
   echo -n "edgeR:"; Rscript -e 'packageVersion("edgeR")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the edgeR version
   echo -n "limma:"; Rscript -e 'packageVersion("limma")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the limma version
   htseq-count -h | tail -1 | sed 's/^Public License v3. Part of the //'
-# GATK
+  gatk --version 2>&1 | head -3
