@@ -83,7 +83,7 @@ From: ubuntu:18.04
   echo -n "scikit-learn: "; python -c 'import sklearn as sk; print(sk.__version__)'
   echo -n "Scipy: "; python -c 'import scipy as sc; print(sc.__version__)' 2>&1 | tail -1
   echo -n "Pandas: "; python -c 'import pandas as pd; print(pd.__version__)' 2>&1 | tail -1
-  echo -n "BioPython: "; python -c 'import biopython as bio; print(bio.__version__)'
+  echo -n "BioPython: "; python -c 'import Bio as bio; print(bio.__version__)'
   echo -n "Seaborn: "; python -c 'import seaborn as sea; print(sea.__version__)'
   echo -n "Matplotlib: "; python -c 'import matplotlib as mat; print(mat.__version__)'
   blastx -h | tail -3 | head -1 | sed 's/[^B]*//'
