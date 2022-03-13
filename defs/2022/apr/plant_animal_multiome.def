@@ -79,7 +79,7 @@ From: ubuntu:18.04
   echo -n "BioPython: "; python -c 'import biopython as bio; print(bio.__version__)'
   echo -n "Seaborn: "; python -c 'import seaborn as sea; print(sea.__version__)'
   echo -n "Matplotlib: "; python -c 'import matplotlib as mat; print(mat.__version__)'
-  blastx -h | tail -3 | head -1 | sed 's/^ *Translated Query-Protein Subject B/B/'
+  blastx -h | tail -3 | head -1 | sed 's/[^B]*//'
 
 
 
