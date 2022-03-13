@@ -44,14 +44,20 @@ From: ubuntu:18.04
 
   # Install numpy into the virtual environment, numpy already installed
   pip install --upgrade numpy
+
   # Install scikit (SciPy is auto-installed and it contains numpy functions) into the virtual environment
   pip install --upgrade scikit-learn
+
   # Install pandas into the virtual environment
   pip install --upgrade pandas
+
   # Install Biopython into the virtual environment
-  pip install --upgrade biopython
+  apt-get install -y python3-biopython=1.70+dfsg-4
+  #pip install --upgrade biopython
+
   # Install Seaborn into the virtual Environment
   pip install seaborn
+
   # Install BLAST into the virtual Environment
   apt-get install -y ncbi-blast+=2.6.0-1
 
