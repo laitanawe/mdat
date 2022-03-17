@@ -25,7 +25,7 @@ process say_it {
 
   shell:
 
-//  If you're redirecting a channel out to a file for each input channel item, a path is created for come.out under separate work subdirectories. If you're only printing to screen but the command is executed in bash, the work subdirs will have the ffg. files: .command.begin,  .command.err,    .command.log    .command.out,    .command.run,    .command.sh,     .exitcode
+//  If you're redirecting a channel out item to a file/path for each input channel item, a path is created for come.out under separate work subdirectories. However, during process execution, if you're only printing to screen but the command is executed in bash, the work subdirs will have the ffg. hiddel files: .command.begin, .command.err, .command.log, .command.out, .command.run, .command.sh, .exitcode
     '''
     # redirect output to a file
     #echo "!{word} my friend, I'm in '$PWD'" > come.out
