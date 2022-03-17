@@ -7,11 +7,11 @@ This script demonstrates a problematic situation that can occur when a workflow
   branches and the output of the branches needs to be combined so that all
   outputs for a given input channel item can be brought back together.
 
-In this case, files are generated that contain greetings in different languages.
-  Then several types of checksum files are generated for each greeting file. This
+In this case, we use the path output channel where files are generated that contain the word "come" in three different Nigerian languages (Yoruba, Hausa and Igbo) and English.
+  Then several types of checksum files are generated for each language file. This
   script shows how a naive approach can result in ambiguities when trying to
-  combine the greeting file channel with the checksum file channel so that
-  the greeting file is correctly grouped with the corresponding checksum files.
+  combine the language file channel with the checksum file channel so that
+  the language file is correctly grouped with the corresponding checksum files.
 
 *********************************************************************************/
 
@@ -22,7 +22,7 @@ process say_it {
 
   shell:
     '''
-    echo "!{word} my friend, i'm in '$PWD'" > come.out
+    echo "!{word} my friend, I'm in '$PWD'" > come.out
     '''
 }
 
