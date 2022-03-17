@@ -44,11 +44,11 @@ process check_sums {
 workflow {
 
   ch_in = channel.of('come', 'wa', 'zo', 'bia')
-  ch_in.subscribe({ println("ch_in: $it\n") })
+  ch_in.subscribe({ println("ch_in: $it") })
 
-  ch_come = say_it(ch_in)
-  ch_come.subscribe({ println("ch_come: $it\n") })
+//  ch_come = say_it(ch_in)
+//  ch_come.subscribe({ println("ch_come: $it\n") })
 
-  ch_sums = check_sums(ch_come)
-  ch_sums.subscribe({ println("ch_sums: $it\n") })
+//  ch_sums = check_sums(ch_come)
+//  ch_sums.subscribe({ println("ch_sums: $it\n") })
 }
