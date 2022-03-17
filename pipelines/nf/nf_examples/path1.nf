@@ -18,11 +18,19 @@ In this case, we use the path output channel where files are generated that cont
 process say_it {
 
   input: val word
-  output: path 'come.out'
+  // example redirect output to a file.
+  //output: path 'come.out'
+  //example output to standard-out
+  output: stdout
 
   shell:
+
+//  If you're redirecting a channel out to a file for each input channel item, a path is created for come.out under separate work subdirectories. If you're only printing to screen but the command is executed in bash, the work subdirs will have the ffg. files: .command.begin,  .command.err,    .command.log    .command.out,    .command.run,    .command.sh,     .exitcode
     '''
-    echo "!{word} my friend, I'm in '$PWD'" > come.out
+    # redirect output to a file
+    #echo "!{word} my friend, I'm in '$PWD'" > come.out
+    # redirect output to standard-out
+    echo "!{word} my friend, I'm in '$PWD'"
     '''
 }
 
@@ -43,11 +51,11 @@ process check_sums {
 
 workflow {
 
-  ch_in = channel.of('come', 'wa', 'zo', 'bia')
+  ch_in = channel.of('Come', 'Wa', 'Zo', 'Bia')
   ch_in.subscribe({ println("ch_in: $it") })
 
-//  ch_come = say_it(ch_in)
-//  ch_come.subscribe({ println("ch_come: $it\n") })
+  ch_come = say_it(ch_in)
+  ch_come.subscribe({ println("ch_come: $it") })
 
 //  ch_sums = check_sums(ch_come)
 //  ch_sums.subscribe({ println("ch_sums: $it\n") })
