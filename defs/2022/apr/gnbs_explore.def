@@ -42,7 +42,7 @@ From: ubuntu:18.04
   unzip ${GATK_PACKAGE}
   rm -v ${GATK_PACKAGE}
   ln -svf /opt/gatk/gatk-4.2.2.0/gatk* /usr/local/bin/
-  
+
   #GAPIT3
   sudo Rscript -e 'install.packages("nloptr")'
   sudo Rscript -e 'install.packages("rgl")'
@@ -95,6 +95,15 @@ From: ubuntu:18.04
   ##Docker:
   sudo apt-get -y install docker=1.5-1build1
 
+  ##BWA:
+  sudo apt-get -y install bwa=0.7.17-1
+
+  #TrimGalore:
+  cd /opt
+  sudo wget https://github.com/FelixKrueger/TrimGalore/archive/0.6.0.tar.gz -O trim_galore.tar.gz
+  sudo tar xvzf trim_galore.tar.gz
+  sudo ln -sv /opt/TrimGalore-0.6.0/trim_galore /usr/local/bin/
+
 %runscript
   echo "This container is based on Ubuntu 18.04"
   echo
@@ -125,6 +134,7 @@ From: ubuntu:18.04
   echo -n "edgeR:"; Rscript -e 'packageVersion("edgeR")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the edgeR version
   echo -n "limma:"; Rscript -e 'packageVersion("limma")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the limma version
   gatk --version 2>&1 | head -3
+  echo -n "trim_galore: "; trim_galore --version | tail -4 | head -1
   htseq-count -h | tail -1 | sed 's/^Public License v3. Part of the //'
 
 %labels

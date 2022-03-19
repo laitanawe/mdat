@@ -37,12 +37,39 @@ process say_it {
 
 process check_sums {
 
-  input: path file_in
+  input: path(file_in)
   output: path('*.{md5,sha256,sha512}')
 
   shell:
     '''
     # can nest 1x or 2x quoted strings w/i triple single quoted multi-line string.
+    echo "file_in: '!{file_in}'"
+    md5sum '!{file_in}' > '!{file_in}.md5'
+    sha256sum '!{file_in}' > '!{file_in}.sha256'
+    sha512sum '!{file_in}' > '!{file_in}.sha512'
+    '''
+}
+
+process check_sums_intermediate {
+
+//a tuple is an immutable list where no addition or removal of items are allowed.
+  input: val(word)
+  output: tuple val(word), path('*.out')
+
+  shell:
+    '''
+  #redirect output to a file. !{your_groovy_code_goes_here_within_braces}
+    echo "!{word} my friend, I'm in '$PWD'" > !{word.toLowerCase()}.out
+    '''
+}
+
+process check_sums_advanced {
+
+  input: tuple val(word), path(file_in)
+  output: tuple val(word), path('*.{md5,sha256,sha512}')
+
+  shell:
+    '''
     echo "file_in: '!{file_in}'"
     md5sum '!{file_in}' > '!{file_in}.md5'
     sha256sum '!{file_in}' > '!{file_in}.sha256'
@@ -62,4 +89,29 @@ workflow {
 
   ch_sums = check_sums(ch_come)
   ch_sums.subscribe({ println("ch_sums: $it\n") })
+
+  ch_sums_intermediate = check_sums_intermediate(ch_come)
+  ch_sums_intermediate.subscribe({ println("ch_sums_intermediate: $it\n") })
+
+  ch_sums_advanced = check_sums_advanced(ch_sums_intermediate)
+  ch_sums_advanced.subscribe({ println("ch_sums_advanced: $it\n") })
+/*
+  // join channels on (by default) first element (grouping key) in each tuple:
+
+  ch_join = ch_sums.join(ch_hello)
+  ch_join.subscribe({ println("ch_join: $it\n") })
+
+  // ch_join tuples are tuple(val, list(path), path); here, convert to
+  //   tuple(val, list(path)), by taking third element (the last path) and
+  //   moving it into the second element (the list of paths). This will
+  //   simplify definition, use and manipulation of downstream channels:
+
+  ch_reformat = ch_join.map({
+    key = it.get(0)
+    val = it.get(1).clone()
+    val.add(it.get(2))
+    return tuple(key, val)
+  })
+  ch_reformat.subscribe({ println("ch_reformat: $it\n") })
+*/
 }
