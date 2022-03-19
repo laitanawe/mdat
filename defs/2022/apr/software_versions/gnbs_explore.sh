@@ -26,5 +26,6 @@
   echo -n "limma:"; Rscript -e 'packageVersion("limma")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the limma version
   htseq-count -h | tail -1 | sed 's/^Public License v3. Part of the //'
   gatk --version 2>&1 | head -3
+  echo -n "snakemake: "; snakemake --version
   echo -n "trim_galore: "; trim_galore --version | tail -4 | head -1
   echo "BWA: "; bwa 2>&1 | head -3 | tail -1
