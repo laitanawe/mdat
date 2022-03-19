@@ -19,7 +19,7 @@ process say_it {
 
   input: val word
   //example redirect output to a file.
-  output: path 'come.out'
+  output: path('*.out')
   //example output to standard-out
   //output: stdout
 
@@ -28,8 +28,8 @@ process say_it {
 //If you're redirecting a channel out item to a file/path for each input channel item, during process execution, a path is created for come.out under separate work subdirectories when the command is executed in bash, and the work subdirs will also have the ffg. hidden files: .command.begin, .command.err, .command.log, .command.out, .command.run, .command.sh, .exitcode
 //Note: Anything shell script that should go to standard out actually goes to .command.out
     '''
-    #redirect output to a file
-    echo "!{word} my friend, I'm in '$PWD'" > come.out
+    #redirect output to a file. !{your_groovy_code_goes_here_within_braces}
+    echo "!{word} my friend, I'm in '$PWD'" > !{word.toLowerCase()}.out
     #redirect output to standard-out
     echo "!{word} my friend, I'm in '$PWD'"
     '''
@@ -38,7 +38,7 @@ process say_it {
 process check_sums {
 
   input: path file_in
-  output: path '*.{md5,sha256,sha512}'
+  output: path('*.{md5,sha256,sha512}')
 
   shell:
     '''
@@ -52,6 +52,8 @@ process check_sums {
 
 workflow {
 
+//within workflow, use $it to refer to an item because there's not input variable name.
+//within process, use the input variable name declared e.g. !{word} for say_it or !{file_in} for check_sums
   ch_in = channel.of('Come', 'Wa', 'Zo', 'Bia')
   ch_in.subscribe({ println("ch_in: $it") })
 
