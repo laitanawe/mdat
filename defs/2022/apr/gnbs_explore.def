@@ -105,7 +105,16 @@ From: ubuntu:18.04
   cd /opt
   sudo wget https://github.com/FelixKrueger/TrimGalore/archive/0.6.0.tar.gz -O trim_galore.tar.gz
   sudo tar xvzf trim_galore.tar.gz
+  rm -v trim_galore.tar.gz
   sudo ln -sv /opt/TrimGalore-0.6.0/trim_galore /usr/local/bin/
+
+  #MultiQC
+  cd /opt
+  sudo wget https://files.pythonhosted.org/packages/6a/f0/122025f4521fd085c07d7a706f08819b4c6bed9e62cfe99453f8c5968ab9/multiqc-1.12.tar.gz
+  sudo tar xvzf multiqc-1.12.tar.gz
+  sudo rm -v multiqc-1.12.tar.gz
+  cd multiqc-1.12/
+  sudo python setup.py install
 
 %runscript
   echo "This container is based on Ubuntu 18.04"
@@ -140,6 +149,8 @@ From: ubuntu:18.04
   echo -n "snakemake: "; snakemake --version
   echo -n "trim_galore: "; trim_galore --version | tail -4 | head -1
   htseq-count -h | tail -1 | sed 's/^Public License v3. Part of the //'
+  multiqc, version 1.12
+
 
 %labels
   Author laitanawe@gmail.com
