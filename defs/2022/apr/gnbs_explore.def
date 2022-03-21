@@ -149,8 +149,7 @@ From: ubuntu:18.04
   echo -n "snakemake: "; snakemake --version
   echo -n "trim_galore: "; trim_galore --version | tail -4 | head -1
   htseq-count -h | tail -1 | sed 's/^Public License v3. Part of the //'
-  multiqc, version 1.12
-
+  multiqc --version
 
 %labels
   Author laitanawe@gmail.com
