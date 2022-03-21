@@ -28,7 +28,7 @@ process say_it {
 //If you're redirecting a channel out item to a file/path for each input channel item, during process execution, a path is created for come.out under separate work subdirectories when the command is executed in bash, and the work subdirs will also have the ffg. hidden files: .command.begin, .command.err, .command.log, .command.out, .command.run, .command.sh, .exitcode
 //Note: Anything shell script that should go to standard out actually goes to .command.out
     '''
-    #redirect output to a file. !{your_groovy_code_goes_here_within_braces}
+    #redirect output to a file your_groovy_code_goes_within_braces
     echo "!{word} my friend, I'm in '$PWD'" > !{word.toLowerCase()}.out
     #redirect output to standard-out
     echo "!{word} my friend, I'm in '$PWD'"
@@ -58,15 +58,17 @@ process check_sums_intermediate {
 
   shell:
     '''
-  #redirect output to a file. !{your_groovy_code_goes_here_within_braces}
+    #redirect output to a file your_groovy_code_goes_within_braces
     echo "!{word} my friend, I'm in '$PWD'" > !{word.toLowerCase()}.out
+    #redirect output to standard-out
+    echo "!{word} my friend, I'm in '$PWD'"
     '''
 }
 
 process check_sums_advanced {
 
   input: tuple val(word), path(file_in)
-  output: tuple val(word), path('*.{md5,sha256,sha512}')
+  output: tuple val(word), path('*.{txt,md5,sha256,sha512}')
 
   shell:
     '''
@@ -74,6 +76,7 @@ process check_sums_advanced {
     md5sum '!{file_in}' > '!{file_in}.md5'
     sha256sum '!{file_in}' > '!{file_in}.sha256'
     sha512sum '!{file_in}' > '!{file_in}.sha512'
+    echo "!{word} my friend, I'm in '$PWD'" > !{word.toLowerCase()}.txt
     '''
 }
 
@@ -90,15 +93,15 @@ workflow {
   ch_sums = check_sums(ch_come)
   ch_sums.subscribe({ println("ch_sums: $it\n") })
 
-  ch_sums_intermediate = check_sums_intermediate(ch_come)
+  ch_sums_intermediate = check_sums_intermediate(ch_in)
   ch_sums_intermediate.subscribe({ println("ch_sums_intermediate: $it\n") })
 
   ch_sums_advanced = check_sums_advanced(ch_sums_intermediate)
   ch_sums_advanced.subscribe({ println("ch_sums_advanced: $it\n") })
-/*
+
   // join channels on (by default) first element (grouping key) in each tuple:
 
-  ch_join = ch_sums.join(ch_hello)
+  ch_join = ch_sums.join(ch_come)
   ch_join.subscribe({ println("ch_join: $it\n") })
 
   // ch_join tuples are tuple(val, list(path), path); here, convert to
@@ -110,8 +113,9 @@ workflow {
     key = it.get(0)
     val = it.get(1).clone()
     val.add(it.get(2))
+    val.add(it.get(3))
     return tuple(key, val)
   })
   ch_reformat.subscribe({ println("ch_reformat: $it\n") })
-*/
+
 }
