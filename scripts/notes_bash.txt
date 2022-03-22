@@ -8,3 +8,13 @@ for i in `ls`; do echo $i | sed 's/XX/22/' | xargs mv -fv $i ; done
 ## Do this after you cd into a month e.g. assuming you're excluding January. $cd into 01_jan2022
 ## Then run this command
 a=2; while [ $a -lt 13 ]; do if [ $a -gt 9 ]; then echo "../"$a && cd "../"$a*; else echo "../0"$a && cd "../0"$a*; fi; for i in $(ls); do echo "now copying into:"$i/ && cp -rv ../../template_NN_mon20XX/01mar/* $i; done; a=`expr $a + 1`; done
+
+## List directories in pwd and echo directories that do not have the subdirectory named "output"
+for t in `ls -d */`; do if ! [ -d $t/output ]; then echo $t; fi; done
+
+## List directories in pwd and copy cancer_prostate/output to directories that do not have the subdirectory "output"
+for t in `ls -d */`; do if ! [ -d $t/output ]; then cp -rv cancer_prostate/output $t; fi; done
+## You can then manually do this:
+cd each of those $t
+git add *
+git commit -am "Add new scripts" & git push

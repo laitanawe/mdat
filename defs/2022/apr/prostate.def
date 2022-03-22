@@ -31,6 +31,14 @@ From: ubuntu:18.04
   ## iCluster
   Rscript -e 'BiocManager::install("iCluster")'
 
+  ##Tools and packages for Single-omics data analysis
+  ##Database: SRA. Bioproject Id: PRJN412953; PRJNA531736
+  ##Data retrieval: sra-toolkit
+  ##GWAS: eQTL, FASTQC, TRIMMOMATIC, BOWTIE2
+  ##RNA-seq: HitStat, HTSeq, Cufflinks, DESeq/edgeR, DESeq2 or Ballgown, Goseq and SeqGSEA, SBGNView
+  ##Metabolomics: MetaboAnalystR
+  ##Proteomics: Rforproteomics
+
 %runscript
   echo "This container is based on Ubuntu 18.04"
   echo
@@ -48,7 +56,7 @@ From: ubuntu:18.04
   echo -n "Bioconductor:"; Rscript -e 'BiocManager::version()' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the Bioconductor version (formatted)
   echo -n "ggplot2:"; Rscript -e 'packageVersion("ggplot2")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the ggplot2 version
   echo -n "iCluster:"; Rscript -e 'packageVersion("iCluster")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
-  
+
 %labels
   Author laitanawe@gmail.com
   Version 0.1
