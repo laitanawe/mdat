@@ -108,14 +108,14 @@ workflow {
   //   tuple(val, list(path)), by taking third element (the last path) and
   //   moving it into the second element (the list of paths). This will
   //   simplify definition, use and manipulation of downstream channels:
-/*
+
+  // grab the key get(0), clone the list, join one item get(2) to it.
   ch_reformat = ch_join.map({
     key = it.get(0)
     val = it.get(1).clone()
     val.add(it.get(2))
-//    val.add(it.get(3))
     return tuple(key, val)
   })
   ch_reformat.subscribe({ println("ch_reformat: $it\n") })
-*/
+
 }
