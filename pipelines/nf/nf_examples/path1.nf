@@ -101,21 +101,21 @@ workflow {
 
   // join channels on (by default) first element (grouping key) in each tuple:
 
-  ch_join = ch_sums.join(ch_come)
+  ch_join = ch_sums_advanced.join(ch_sums_intermediate)
   ch_join.subscribe({ println("ch_join: $it\n") })
 
   // ch_join tuples are tuple(val, list(path), path); here, convert to
   //   tuple(val, list(path)), by taking third element (the last path) and
   //   moving it into the second element (the list of paths). This will
   //   simplify definition, use and manipulation of downstream channels:
-
+/*
   ch_reformat = ch_join.map({
     key = it.get(0)
     val = it.get(1).clone()
     val.add(it.get(2))
-    val.add(it.get(3))
+//    val.add(it.get(3))
     return tuple(key, val)
   })
   ch_reformat.subscribe({ println("ch_reformat: $it\n") })
-
+*/
 }
