@@ -18,3 +18,6 @@ for t in `ls -d */`; do if ! [ -d $t/output ]; then cp -rv cancer_prostate/outpu
 cd each of those $t
 git add *
 git commit -am "Add new scripts" & git push
+
+# Iteratively copy steps.txt into workflow dir for all Git Repos if steps.txt doesn't exist [ -e $file ]
+for i in `ls`; do if ! [ -e $i/workflow/steps.txt ]; then echo $i; cp -v ~/Documents/steps.txt $i/workflow/; fi; done
