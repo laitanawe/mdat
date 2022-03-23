@@ -1,2 +1,2 @@
 # project_name
-Identifying Methylation Sites and Interfering RNAs in Multiple Sclerosis Patients Using Human DNA-seq and RNA-seq
+Identifying Specific Molecular Targets in Patient Condition or Organism Sample Type Using ABC Technique or Assay Type or Data Type
