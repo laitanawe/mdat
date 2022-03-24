@@ -111,9 +111,9 @@ workflow {
 
   // grab the key get(0), clone the list, join one item get(2) to it.
   ch_reformat = ch_join.map({
-    key = it.get(0)
-    val = it.get(1).clone()
-    val.add(it.get(2))
+    key = it.get(0) // first item is the common output variable between the two joined channels.
+    val = it.get(1).clone() // second item is a list. We're cloning the list here.
+    val.add(it.get(2)) // We're including this path/value as an item of the cloned list.
     return tuple(key, val)
   })
   ch_reformat.subscribe({ println("ch_reformat: $it\n") })
