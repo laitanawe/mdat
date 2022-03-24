@@ -21,3 +21,7 @@ git commit -am "Add new scripts" & git push
 
 # Iteratively copy steps.txt into workflow dir for all Git Repos if steps.txt doesn't exist [ -e $file ]
 for i in `ls`; do if ! [ -e $i/workflow/steps.txt ]; then echo $i; cp -v ~/Documents/steps.txt $i/workflow/; fi; done
+
+# Iteratively copy project_lifecyle.txt into workflow dir for all Git Repos that are not ace2_covid
+# If pwd is ace2_covid, then run this command (relative paths work)
+for f in `ls ../`; do if [ $f != "ace2_covid" ]; then echo $f; cp -v workflow/project_lifecyle.txt ../$f/workflow; fi; done
