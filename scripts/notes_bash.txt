@@ -25,3 +25,17 @@ for i in `ls`; do if ! [ -e $i/workflow/steps.txt ]; then echo $i; cp -v ~/Docum
 # Iteratively copy project_lifecyle.txt into workflow dir for all Git Repos that are not ace2_covid
 # If pwd is ace2_covid, then run this command (relative paths work)
 for f in `ls ../`; do if [ $f != "ace2_covid" ]; then echo $f; cp -v workflow/project_lifecyle.txt ../$f/workflow; fi; done
+
+## Here's my cheat sheet of conditional in bash:
+"A ; B" Run A and then B, regardless of success of A (execute subsequent commands ONLY if B is true)
+"A && B" Run B if A succeeded (execute subsequent commands ONLY if BOTH B and A are true)
+"A || B" Run B if A failed (execute subsequent commands if ANY of B or A is true)
+"A &" Run A in background. (execute command A as a backgroud process)
+## To exclude cancer_prostate AND ALSO exclude spodoptera_temperature from the copy, do:
+for d in `ls`; do if [ $d != 'cancer_prostate' ] && [ $d != 'spodoptera_temperature' ] ; then echo "Processing: "$d; cp -v spodoptera_temperature/docs/papers_url.txt $d/docs/; fi; done
+
+## To exclude circrna_biomarker AND ALSO exclude gNBS_explore from the copy, do:
+for d in `ls`; do if [ $d != 'circrna_biomarker' ] && [ $d != 'gNBS_explore' ]; then echo $d && cp -v circrna_biomarker/accessions/accessions.txt $d/accessions/; fi; done
+
+## To exclude gNBS_explore strictly from the echo, do: (circrna_biomarker will be included in the echo)
+for d in `ls`; do if [ $d != 'circrna_biomarker' ] ; [ $d != 'gNBS_explore' ]; then echo $d; echo "2nd "$d; fi; done
