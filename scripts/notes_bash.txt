@@ -39,3 +39,18 @@ for d in `ls`; do if [ $d != 'circrna_biomarker' ] && [ $d != 'gNBS_explore' ]; 
 
 ## To exclude gNBS_explore strictly from the echo, do: (circrna_biomarker will be included in the echo)
 for d in `ls`; do if [ $d != 'circrna_biomarker' ] ; [ $d != 'gNBS_explore' ]; then echo $d; echo "2nd "$d; fi; done
+
+## To copy *.txt (steps and project_lifecycle) into $d, do: (ms_epigenomics will be excluded in the copy)
+for d in `ls`; do if [ $d != 'ms_epigenomics' ]; then echo "Processing: " $d; cp -v ms_epigenomics/workflow/*.txt $d/workflow/; fi; done
+
+## To delete project_lifecyle.txt from $d, do: (ms_epigenomics and circrna_biomarker will be strictly excluded in the copy)
+for d in `ls`; do if [ $d != 'ms_epigenomics' ] && [ $d != 'circrna_biomarker' ] ; then echo "Removing project_lifecyle.txt from: " $d; rm -v $d/workflow/project_lifecyle.txt; fi; done
+
+
+## To list git repos that needs updating, do: (ms_epigenomics and circrna_biomarker and spodoptera_temperature will be strictly excluded in the listing)
+for d in `ls`; do if [ $d != 'ms_epigenomics' ] && [ $d != 'circrna_biomarker' ]  && [ $d != 'spodoptera_temperature' ]; then echo "Listing Git Repo to update: " $d; fi; done
+
+# This has to be done manually because the repo contents vary. Copying .txt should be on a case by case basis.
+cd ../{next_$d}
+git add *; git commit -am "Add new scripts" & git push; git commit -am "Add new scripts" & git push; git status
+next_$d
