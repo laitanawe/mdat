@@ -57,3 +57,6 @@ next_$d
 
 ## To copy project_lifecycle.txt into $d, do: (ace2_covid will be excluded in the copy)
 for d in `ls`; do if [ $d != 'ace2_covid' ]; then echo "Processing: " $d; cp -v ace2_covid/workflow/project_lifecycle.txt $d/workflow/; fi; done
+
+## To copy project_lifecycle.txt into $d, do: (ms_epigenomics will be excluded in the copy)
+for d in `ls`; do if [ $d != 'ms_epigenomics' ]; then echo "Processing: " $d; cp -v ms_epigenomics/docs/notes.txt $d/docs/; fi; done
