@@ -1,6 +1,14 @@
 ## Replace string pattern in all .def files in a directory
 for f in *.def; do echo "processing " $f; awk '{sub("Author Olaitan","Author laitanawe@gmail.com")}1' $f > temp.txt && mv temp.txt $f; done
 
+# Bash date formatting:
+# Month in number (%m)
+echo "processing finished on $(date +%a) $(date +'%Y-%m-%d %H:%M:%S')"
+
+# Weekday in short (%a) and Month in short (%b)
+echo "processing finished on $(date +%a) $(date +'%Y-%b-%d %H:%M:%S')"
+
+
 #!/usr/bin/env bash
 #Short runtime fastq -> fasta conversion: (from rtliu (https://www.biostars.org/u/6324/))
 sed -n '1~4s/^@/>/p;2~4p' my.fastq > my.fasta
