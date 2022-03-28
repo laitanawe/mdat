@@ -60,3 +60,8 @@ for d in `ls`; do if [ $d != 'ace2_covid' ]; then echo "Processing: " $d; cp -v 
 
 ## To copy notes.txt into $d, do: (ms_epigenomics will be excluded in the copy)
 for d in `ls`; do if [ $d != 'ms_epigenomics' ]; then echo "Processing: " $d; cp -v ms_epigenomics/docs/notes.txt $d/docs/; fi; done
+
+## Grab first num_accessions from sraruntable and write to output file
+head -n $accessions_plus_header $input_file | tail -n $num_accessions | awk '{ print $1 }' > $output_file
+## E.g.
+head -n 201 sra_runtable.tsv | tail -n 200 | awk '{ print $1 }' > accessions.txt
