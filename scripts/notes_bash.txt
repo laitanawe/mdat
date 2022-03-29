@@ -77,3 +77,22 @@ for d in `ls`; do if [ $d != 'ms_epigenomics' ]; then echo "Processing: " $d; cp
 head -n $accessions_plus_header $input_file | tail -n $num_accessions | awk '{ print $1 }' > $output_file
 ## E.g.
 head -n 201 sra_runtable.tsv | tail -n 200 | awk '{ print $1 }' > accessions.txt
+
+
+# Generate new ssh key
+ssh-keygen -t ed25519
+# If you are using a legacy system that doesn't support the Ed25519 algorithm, use:
+ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+
+
+# Expand disks: Search for Manage Disks -> Open VM -> Edit (3 dots) -> Edit disk size.
+
+
+# On instance:
+sudo mkdir ~/my_shared_data_folder/prj_name
+# Let group users save files in their project directory
+sudo chmod -Rv 775 ~/my_shared_data_folder/prj_name
+sudo chown -Rv $USER:prj-group ~/my_shared_data_folder/prj_name
+
+# Filter out the US accessions
+head -n 106 microbiome_data.csv | tail -n 105 | cut -f2 -d',' > accessions_usa_16s.txt
