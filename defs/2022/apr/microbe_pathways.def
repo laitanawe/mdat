@@ -4,53 +4,6 @@ From: ubuntu:18.04
 
 %post
 
-
-* removing ‘/usr/local/lib/R/site-library/Biostrings’
-* installing *source* package ‘SummarizedExperiment’ ...
-** using staged installation
-** R
-** inst
-** byte-compile and prepare package for lazy loading
-** help
-*** installing help indices
-** building package indices
-** installing vignettes
-** testing if installed package can be loaded from temporary location
-** testing if installed package can be loaded from final location
-** testing if installed package keeps a record of temporary installation path
-* DONE (SummarizedExperiment)
-ERROR: dependency ‘Biostrings’ is not available for package ‘Rsamtools’
-* removing ‘/usr/local/lib/R/site-library/Rsamtools’
-ERROR: dependencies ‘Biostrings’, ‘Rsamtools’ are not available for package ‘GenomicAlignments’
-* removing ‘/usr/local/lib/R/site-library/GenomicAlignments’
-ERROR: dependencies ‘Biostrings’, ‘Rsamtools’, ‘GenomicAlignments’, ‘latticeExtra’ are not available for package ‘ShortRead’
-* removing ‘/usr/local/lib/R/site-library/ShortRead’
-ERROR: dependencies ‘Biostrings’, ‘reshape2’, ‘ShortRead’ are not available for package ‘dada2’
-* removing ‘/usr/local/lib/R/site-library/dada2’
-
-The downloaded source packages are in
-	‘/tmp/RtmpWBw2tE/downloaded_packages’
-Old packages: 'crayon', 'knitr', 'processx', 'readxl', 'tinytex', 'tzdb',
-  'cluster', 'Matrix', 'mgcv', 'nlme', 'spatial', 'survival'
-Warning messages:
-1: In .inet_warning(msg) :
-  installation of package ‘plyr’ had non-zero exit status
-2: In .inet_warning(msg) :
-  installation of package ‘latticeExtra’ had non-zero exit status
-3: In .inet_warning(msg) :
-  installation of package ‘reshape2’ had non-zero exit status
-4: In .inet_warning(msg) :
-  installation of package ‘Biostrings’ had non-zero exit status
-5: In .inet_warning(msg) :
-  installation of package ‘Rsamtools’ had non-zero exit status
-6: In .inet_warning(msg) :
-  installation of package ‘GenomicAlignments’ had non-zero exit status
-7: In .inet_warning(msg) :
-  installation of package ‘ShortRead’ had non-zero exit status
-8: In .inet_warning(msg) :
-  installation of package ‘dada2’ had non-zero exit status
-
-
   sudo apt-get -y update
   sudo apt-get -y upgrade
 
