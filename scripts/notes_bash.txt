@@ -84,6 +84,21 @@ ssh-keygen -t ed25519
 # If you are using a legacy system that doesn't support the Ed25519 algorithm, use:
 ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
 
+# Adding a user (by hand, you can grab users from a text file of users)
+sudo adduser <username>
+
+# Adding a group, you can use project-name for group_name
+groupadd <group_name>
+
+# Add multiple users to group, include your usernames in the users.txt file
+sudo usermod -a -G mygroup userA userB userC
+for u in $(cat users.txt); do sudo usermod -a -G microbiome-covid19 $u; done
+
+# Adding a user to different secondary groups
+sudo usermod -a -G group1,group2 username
+
+# Adding user linuxise to the sudo group
+sudo usermod -a -G sudo linuxize
 
 # Expand disks: Search for Manage Disks -> Open VM -> Edit (3 dots) -> Edit disk size.
 

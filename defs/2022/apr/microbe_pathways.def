@@ -4,9 +4,60 @@ From: ubuntu:18.04
 
 %post
 
-  sudo apt-get update
 
-  ##Data Download:
+* removing ‘/usr/local/lib/R/site-library/Biostrings’
+* installing *source* package ‘SummarizedExperiment’ ...
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** installing vignettes
+** testing if installed package can be loaded from temporary location
+** testing if installed package can be loaded from final location
+** testing if installed package keeps a record of temporary installation path
+* DONE (SummarizedExperiment)
+ERROR: dependency ‘Biostrings’ is not available for package ‘Rsamtools’
+* removing ‘/usr/local/lib/R/site-library/Rsamtools’
+ERROR: dependencies ‘Biostrings’, ‘Rsamtools’ are not available for package ‘GenomicAlignments’
+* removing ‘/usr/local/lib/R/site-library/GenomicAlignments’
+ERROR: dependencies ‘Biostrings’, ‘Rsamtools’, ‘GenomicAlignments’, ‘latticeExtra’ are not available for package ‘ShortRead’
+* removing ‘/usr/local/lib/R/site-library/ShortRead’
+ERROR: dependencies ‘Biostrings’, ‘reshape2’, ‘ShortRead’ are not available for package ‘dada2’
+* removing ‘/usr/local/lib/R/site-library/dada2’
+
+The downloaded source packages are in
+	‘/tmp/RtmpWBw2tE/downloaded_packages’
+Old packages: 'crayon', 'knitr', 'processx', 'readxl', 'tinytex', 'tzdb',
+  'cluster', 'Matrix', 'mgcv', 'nlme', 'spatial', 'survival'
+Warning messages:
+1: In .inet_warning(msg) :
+  installation of package ‘plyr’ had non-zero exit status
+2: In .inet_warning(msg) :
+  installation of package ‘latticeExtra’ had non-zero exit status
+3: In .inet_warning(msg) :
+  installation of package ‘reshape2’ had non-zero exit status
+4: In .inet_warning(msg) :
+  installation of package ‘Biostrings’ had non-zero exit status
+5: In .inet_warning(msg) :
+  installation of package ‘Rsamtools’ had non-zero exit status
+6: In .inet_warning(msg) :
+  installation of package ‘GenomicAlignments’ had non-zero exit status
+7: In .inet_warning(msg) :
+  installation of package ‘ShortRead’ had non-zero exit status
+8: In .inet_warning(msg) :
+  installation of package ‘dada2’ had non-zero exit status
+
+
+  sudo apt-get -y update
+  sudo apt-get -y upgrade
+
+  ##1 This version of sratoolkit only has fastq-dump
+  apt-get install -y sra-toolkit=2.8.2-5+dfsg-1
+
+  ##Data Download: This version of sratoolkit has fasterq-dump
   # fasterq-dump: sudo chown -Rv $(whoami):$(whoami) ~/my_shared_data_folder/<dir> #Own the dir b4 writing to it.
   cd /opt/
   sudo wget https://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/2.11.0/setup-apt.sh
@@ -17,47 +68,91 @@ From: ubuntu:18.04
 
   ## Picrust2 for functional prediction, Metaphlan2 for Metagenome, Qiime2/DADA2 for metagenomic analysis,
   ## Gephi for network analysis, Qiime2 for 16S
-  # Download RDP trainset: Taxonomy Assignment with the RDP classifier
+  ##2 Download RDP trainset: Taxonomy Assignment with the RDP classifier
   sudo mkdir -pv /opt/rdp
   cd /opt/rdp
   sudo wget https://zenodo.org/record/801828/files/rdp_train_set_16.fa.gz
   sudo wget https://zenodo.org/record/801828/files/rdp_species_assignment_16.fa.gz
   sudo chown -Rv $(whoami):$(whoami) /opt/rdp
 
-  #Bowtie2 is needed for MetaPhlan2
-  sudo apt-get install -y bowtie2=2.3.4.1-1
-  sudo apt-get install -y metaphlan2=2.7.5-1
+  ##3 Bowtie2 is needed for MetaPhlan2
+   sudo apt-get install -y bowtie2=2.3.4.1-1
+  ##
+#  sudo apt-get install -y metaphlan2=2.7.5-1
 
-  #Qiime
+  ##4 Qiime
   sudo apt-get install -y qiime=1.8.0+dfsg-4ubuntu1
 
-  #Gephi
-  sudo mkdir -pv /opt/gephi
-  cd /opt/gephi
+  ##5 Gephi
+  sudo mkdir -pv /opt/
   sudo wget https://github.com/gephi/gephi/releases/download/v0.9.2/gephi-0.9.2-linux.tar.gz
   sudo chown -Rv $(whoami):$(whoami) /opt/gephi
   tar xvzf gephi-0.9.2-linux.tar.gz
-  cd gephi-0.9.2/
+  mv -fv gephi-0.9.2 gephi
   ./bin/gephi
 
   # 16S metagenomics: 16S Taxonomic Profiling
-  sudo apt-get install libbz2-dev zlib1g-dev liblzma-dev
-  Rscript -e 'BiocManager::install("Rhtslib", force=TRUE)'
-  Rscript -e 'BiocManager::install("Rsamtools", force=TRUE)'
-  Rscript -e 'BiocManager::install("GenomicAlignments", force=TRUE)'
-  sudo apt-get install libpng-dev
-  Rscript -e 'BiocManager::install("png", force=TRUE)'
-  sudo apt-get install libjpeg-turbo8-dev
-  Rscript -e 'BiocManager::install("jpeg", force=TRUE)'
-  Rscript -e 'BiocManager::install("latticeExtra", force=TRUE)'
-  Rscript -e 'BiocManager::install("ShortRead", force=TRUE)'
-  Rscript -e 'BiocManager::install("dada2", force=TRUE)'
+  ##7b Upgrade R and Install R 4.1
+  sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
+  sudo add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran40/'
+  sudo apt-get -y update
+  # Additional: r-base-dev is needed if you want to compile packages from source. It's need if using install.packages()
+  sudo apt-get -y install r-base=4.1.3-1.1804.0 r-base-dev=4.1.3-1.1804.0
+  ##6 BiocManager has to be installed immediately after installing r-base because both packages must be compatible.
+  sudo Rscript -e 'install.packages("BiocManager")'
+  ##7a
+  sudo apt-get install -y r-bioc-biocinstaller=1.28.0-1
+  sudo apt-get -y install libbz2-dev zlib1g-dev liblzma-dev
+
+  # This works on Debian-slim: r-bioc-rhtslib and the following lines are now redundant:
+  #sudo Rscript -e 'install.packages("https://bioconductor.org/packages/3.9/bioc/src/contrib/Rhtslib_1.16.3.tar.gz")'
+  #dependency ‘zlibbioc’ is needed for package ‘Rhtslib’
+  #sudo apt-get -y install libpng-dev libjpeg-turbo8-dev
+  sudo Rscript -e 'BiocManager::install("zlibbioc")'
+  sudo Rscript -e 'BiocManager::install("Rhtslib", force=TRUE)'
+  #These have to be installed after r-base 4.0+
+  #Error: package ‘crayon’ was installed before R 4.0.0: please re-install it
+  #Execution halted
+  #ERROR: lazy loading failed for package ‘Biostrings’
+
+  sudo Rscript -e 'BiocManager::install("crayon")'
+  sudo Rscript -e 'BiocManager::install("Rcpp", force=TRUE)'
+  sudo Rscript -e 'BiocManager::install("plyr", force=TRUE)'
+  sudo Rscript -e 'BiocManager::install("RColorBrewer", force=TRUE)'
+  sudo Rscript -e 'BiocManager::install("latticeExtra", force=TRUE)'
+  sudo Rscript -e 'BiocManager::install("ShortRead", force=TRUE)'
+  sudo Rscript -e 'BiocManager::install("stringi", force=TRUE)'
+  sudo Rscript -e 'BiocManager::install("magrittr", force=TRUE)'
+  sudo Rscript -e 'BiocManager::install("stringr", force=TRUE)'
+  sudo Rscript -e 'BiocManager::install("reshape2", force=TRUE)'
+  sudo Rscript -e 'BiocManager::install("gtable", force=TRUE)'
+  sudo Rscript -e 'BiocManager::install("rlang", force=TRUE)'
+  sudo Rscript -e 'BiocManager::install("R6", force=TRUE)'
+  sudo Rscript -e 'BiocManager::install("lifecycle", force=TRUE)'
+  sudo Rscript -e 'BiocManager::install("colorspace", force=TRUE)'
+  sudo Rscript -e 'BiocManager::install("munsell", force=TRUE)'
+  sudo Rscript -e 'BiocManager::install("scales", force=TRUE)'
+  sudo Rscript -e 'BiocManager::install("glue", force=TRUE)'
+  sudo Rscript -e 'BiocManager::install("utf8", force=TRUE)'
+  sudo Rscript -e 'BiocManager::install("fansi", force=TRUE)'
+  sudo Rscript -e 'BiocManager::install("vctrs", force=TRUE)'
+  sudo Rscript -e 'BiocManager::install("pillar", force=TRUE)'
+  sudo Rscript -e 'BiocManager::install("ellipsis", force=TRUE)'
+  sudo Rscript -e 'BiocManager::install("pkgconfig", force=TRUE)'
+  sudo Rscript -e 'BiocManager::install("tibble", force=TRUE)'
+  sudo Rscript -e 'BiocManager::install("scales", force=TRUE)'
+  sudo Rscript -e 'BiocManager::install("withr", force=TRUE)'
+  sudo Rscript -e 'BiocManager::install("scales", force=TRUE)'
+  sudo Rscript -e 'BiocManager::install("ggplot2", force=TRUE)'
+  sudo Rscript -e 'BiocManager::install("dada2", force=TRUE)'
+  #If dada2 install doesn't work directly, then these will be needed: Rsamtools, GenomicAlignments, png, sudo Rscript -e 'BiocManager::install("jpeg", force=TRUE)'
+
   #Rscript -e 'source("https://raw.githubusercontent.com/r-lib/remotes/master/install-github.R")$value("benjjneb/dada2@v1.18",dependencies=T,clean=T,upgrade="never")'
   ##decipher
   Rscript -e 'BiocManager::install("DECIPHER")'
 
   # Metagenomics: Functional Profiling
-  #HMMER
+  ##8 HMMER
   sudo apt-get install -y hmmer=3.1b2+dfsg-5ubuntu1
 
   #castor
