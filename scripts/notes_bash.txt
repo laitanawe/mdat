@@ -88,7 +88,7 @@ ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
 sudo adduser <username>
 
 # Adding a group, you can use project-name for group_name
-groupadd <group_name>
+sudo groupadd <group_name>
 
 # Add multiple users to group, include your usernames in the users.txt file
 sudo usermod -a -G mygroup userA userB userC
@@ -100,7 +100,7 @@ sudo usermod -a -G group1,group2 username
 # Adding user linuxise to the sudo group
 sudo usermod -a -G sudo linuxize
 
-# Expand disks: Search for Manage Disks -> Open VM -> Edit (3 dots) -> Edit disk size.
+# Expand disks: Search for Manage Disks -> Open VM -> (3 dots) Edit -> Edit disk size.
 
 
 # On instance:
@@ -111,3 +111,9 @@ sudo chown -Rv $USER:prj-group ~/my_shared_data_folder/prj_name
 
 # Filter out the US accessions
 head -n 106 microbiome_data.csv | tail -n 105 | cut -f2 -d',' > accessions_usa_16s.txt
+
+# Open each nextflow file in modules subdirectory
+for i in $(ls modules/); do atom "modules/"$i; done
+
+# copy directories into R package library directory
+for d in $(sudo ls -Ahtr /usr/local/lib/R/old-site-library | tail -30); do sudo cp -Rv "/usr/local/lib/R/old-site-library/"$d "/usr/lib/R/library/"; done

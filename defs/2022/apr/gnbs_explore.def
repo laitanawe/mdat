@@ -98,6 +98,7 @@ From: ubuntu:18.04
   ##BWA:
   sudo apt-get -y install bwa=0.7.17-1
 
+
   ##Snakemake:
   sudo apt-get -y install snakemake=4.3.1-1
 
@@ -150,6 +151,7 @@ From: ubuntu:18.04
   echo -n "trim_galore: "; trim_galore --version | tail -4 | head -1
   htseq-count -h | tail -1 | sed 's/^Public License v3. Part of the //'
   multiqc --version
+  echo -n "BWA "; bwa 2>&1 | head -3 | tail -1
 
 %labels
   Author laitanawe@gmail.com

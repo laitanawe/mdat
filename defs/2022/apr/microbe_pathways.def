@@ -51,6 +51,8 @@ From: ubuntu:18.04
   sudo apt-get -y update
   # Additional: r-base-dev is needed if you want to compile packages from source. It's need if using install.packages()
   sudo apt-get -y install r-base=4.1.3-1.1804.0 r-base-dev=4.1.3-1.1804.0
+  R --version | head -n 1
+
   ##6 BiocManager has to be installed immediately after installing r-base because both packages must be compatible.
   sudo Rscript -e 'install.packages("BiocManager")'
   ##7a
