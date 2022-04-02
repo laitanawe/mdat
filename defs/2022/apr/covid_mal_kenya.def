@@ -77,7 +77,8 @@ From: ubuntu:18.04
   sudo apt-get -y install python-htseq=0.6.1p1-4build1
 
   ##Docker:
-  sudo apt-get -y install docker=1.5-1build1
+  sudo apt-get -y install docker.io=20.10.7-0ubuntu5~18.04.3
+  #sudo apt-get -y install docker=1.5-1build1
 
 %runscript
   echo "This container is based on Ubuntu 18.04"
@@ -109,6 +110,7 @@ From: ubuntu:18.04
   echo -n "edgeR:"; Rscript -e 'packageVersion("edgeR")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the edgeR version
   echo -n "limma:"; Rscript -e 'packageVersion("limma")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the limma version
   htseq-count -h | tail -1 | sed 's/^Public License v3. Part of the //'
+  docker --version
 
 %labels
   Author laitanawe@gmail.com
