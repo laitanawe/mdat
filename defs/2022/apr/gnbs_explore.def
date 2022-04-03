@@ -37,6 +37,7 @@ From: ubuntu:18.04
   ln -sv /opt/STAR/bin/Linux_x86_64/* /usr/local/bin
 
   #GATK
+  cd /opt/
   export GATK_PACKAGE="gatk.zip"
   wget -O $GATK_PACKAGE https://github.com/broadinstitute/gatk/releases/download/4.2.2.0/gatk-4.2.2.0.zip
   unzip ${GATK_PACKAGE}
@@ -98,9 +99,16 @@ From: ubuntu:18.04
   ##BWA:
   sudo apt-get -y install bwa=0.7.17-1
 
-
   ##Snakemake:
   sudo apt-get -y install snakemake=4.3.1-1
+
+  ##Nextflow
+  sudo mkdir -pv /opt/nextflow/
+  cd /opt/nextflow/
+  sudo curl -s https://get.nextflow.io | sudo bash
+  sudo ln -sv /opt/nextflow/nextflow /usr/bin/
+  sudo /opt/nextflow/nextflow self-update
+  nextflow -version
 
   #TrimGalore:
   cd /opt
@@ -148,6 +156,7 @@ From: ubuntu:18.04
   echo -n "limma:"; Rscript -e 'packageVersion("limma")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g' ## Display the limma version
   gatk --version 2>&1 | head -3
   echo -n "snakemake: "; snakemake --version
+  echo -n "Nextflow: "; sudo nextflow -version | head -3 | tail -1 | sed 's/^ *//'
   echo -n "trim_galore: "; trim_galore --version | tail -4 | head -1
   htseq-count -h | tail -1 | sed 's/^Public License v3. Part of the //'
   multiqc --version

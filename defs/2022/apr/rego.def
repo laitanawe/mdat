@@ -46,7 +46,7 @@ From: ubuntu:18.04
   sudo mkdir -pv eutils
   sudo chown -Rv $(whoami):$(whoami) /opt/eutils
   cd /opt/eutils
-  sh -c "$(wget -q ftp://ftp.ncbi.nlm.nih.gov/entrez/entrezdirect/install-edirect.sh -O -)"
+  sudo sh -c "$(wget -q ftp://ftp.ncbi.nlm.nih.gov/entrez/entrezdirect/install-edirect.sh -O -)"
   echo "export PATH=\${PATH}:${HOME}/edirect" >> ${HOME}/.bashrc
   #echo "export PATH=\$PATH:\$HOME/edirect" >> $HOME/.bash_profile
   export PATH=${PATH}:${HOME}/edirect
