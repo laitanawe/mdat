@@ -32,11 +32,12 @@ From: ubuntu:18.04
   sudo Rscript -e 'install.packages("rgl")'
 
   Rscript -e 'install.packages("devtools")'
-  Rscript -e 'devtools::install_github("jiabowang/GAPIT3",force=TRUE)'
+  sudo Rscript -e 'devtools::install_github("jiabowang/GAPIT3",force=TRUE)'
   R>library(GAPIT3)
 
   #BLINK
-  Rscript -e 'devtools::install_github("YaoZhou89/BLINK")'
+  sudo Rscript -e 'install.packages("devtools")'
+  sudo Rscript -e 'devtools::install_github("YaoZhou89/BLINK")'
 
   ##FastQC, Trimmomatic, R, ggplot2, DESeq2, samtools, HISAT2, featureCounts
   #FastQC

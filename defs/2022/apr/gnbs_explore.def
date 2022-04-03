@@ -108,7 +108,7 @@ From: ubuntu:18.04
   sudo curl -s https://get.nextflow.io | sudo bash
   sudo ln -sv /opt/nextflow/nextflow /usr/bin/
   sudo /opt/nextflow/nextflow self-update
-  nextflow -version
+  echo -n "Nextflow: "; sudo nextflow -version | head -3 | tail -1 | sed 's/^ *//'
 
   #TrimGalore:
   cd /opt
@@ -124,6 +124,14 @@ From: ubuntu:18.04
   sudo rm -v multiqc-1.12.tar.gz
   cd multiqc-1.12/
   sudo python setup.py install
+
+  ##snpEff
+  # Go to snpEff home dir
+  cd /opt
+  # Download latest version
+  sudo wget https://snpeff.blob.core.windows.net/versions/snpEff_latest_core.zip
+  # Unzip file
+  sudo unzip snpEff_latest_core.zip
 
 %runscript
   echo "This container is based on Ubuntu 18.04"

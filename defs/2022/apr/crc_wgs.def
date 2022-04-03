@@ -86,7 +86,7 @@ From: ubuntu:18.04
 
   #To Install: Soap Denovo, Genemark and METAREP are web browsers, no need of installation.
   #soapdenovo2
-  apt-get -y install soapdenovo2=241+dfsg-1
+  sudo apt-get -y install soapdenovo2=241+dfsg-1
 
   #PICRUSt2
   mkdir -pv /opt
