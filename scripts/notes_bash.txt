@@ -84,15 +84,31 @@ ssh-keygen -t ed25519
 # If you are using a legacy system that doesn't support the Ed25519 algorithm, use:
 ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
 
-# Adding a user (by hand, you can grab users from a text file of users)
-sudo adduser <username>
-
+Steps:
+1. Create VM
+2. Add your personal public SSH keys
+3. sudo adduser <username>
+Lambert Nzungize
+Step1:
 # Adding a group, you can use project-name for group_name
 sudo groupadd <group_name>
 
+Step2:
+# Adding a user (by hand, you can grab users from a text file of users)
+sudo adduser <username>
+
+# GitHub directory and ownership and permissions
+sudo mkdir -pv ace2covid
+sudo mkdir -pv github
+sudo chown -Rv laitanawe:ace2covid github
+sudo chmod -Rv 775 github
+
 # Add multiple users to group, include your usernames in the users.txt file
 sudo usermod -a -G mygroup userA userB userC
-for u in $(cat users.txt); do sudo usermod -a -G microbiome-covid19 $u; done
+# Add my user and project users
+for u in $(cat users2.txt); do sudo usermod -a -G ace2covid $u; done
+for u in $(cat users.txt); do echo "processing: "$u; sudo usermod -a -G ace2covid $u; done
+
 
 # Adding a user to different secondary groups
 sudo usermod -a -G group1,group2 username
