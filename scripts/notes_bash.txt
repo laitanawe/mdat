@@ -133,3 +133,14 @@ for i in $(ls modules/); do atom "modules/"$i; done
 
 # copy directories into R package library directory
 for d in $(sudo ls -Ahtr /usr/local/lib/R/old-site-library | tail -30); do sudo cp -Rv "/usr/local/lib/R/old-site-library/"$d "/usr/lib/R/library/"; done
+
+
+
+#Make shell scripts to do things, and use bash -c to kick off the process with:
+$ cat build_sandbox.sh
+sudo SINGULARITY_TMPDIR=/path/to/tmp SINGULARITY_CACHEDIR=/path/to/cache SINGULARITY_LOCALCACHEDIR=/path/to/local_cache bash -c '/path/to/bin/singularity build --sandbox /path/to/name_for_sandbox /path/to/sandbox.def'
+
+#Run the script by doing:
+$ bash build_sandbox.sh
+or if script is executable:
+$./build_cutrun_sandbox.sh
