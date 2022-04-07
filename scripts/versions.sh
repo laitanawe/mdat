@@ -75,3 +75,5 @@ echo -n "pysam: "; python3 -c 'import pysam as pys; print(pys.__version__)'
 idr --version | head -1
 
 echo -n "KODAMA:"; Rscript -e 'packageVersion("KODAMA")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
+echo -n "RNASeqR:"; Rscript -e 'packageVersion("RNASeqR")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
+echo -n "mixOmics:"; Rscript -e 'packageVersion("mixOmics")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
