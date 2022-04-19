@@ -78,3 +78,4 @@ echo -n "KODAMA:"; Rscript -e 'packageVersion("KODAMA")' | sed 's/\[1]//' | sed 
 echo -n "RNASeqR:"; Rscript -e 'packageVersion("RNASeqR")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
 echo -n "mixOmics:"; Rscript -e 'packageVersion("mixOmics")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
 echo -n "dupRadar:"; Rscript -e 'packageVersion("dupRadar")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
+echo -n "gsalib:"; Rscript -e 'packageVersion("gsalib")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
