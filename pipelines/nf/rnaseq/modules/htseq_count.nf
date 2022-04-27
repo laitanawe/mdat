@@ -1,9 +1,9 @@
 #!/usr/bin/env nextflow
 nextflow.enable.dsl = 2
 
-//Include / Import this module to the main script
+//This script performs Raw Gene Expression Quantification (RGEQ) on sorted BAM files
 
-//This script performs Raw Gene Expression Quantification on sorted BAM files
+//This module should be included into the main script in order to do RGEQ
 
 process htseq_count {
 
