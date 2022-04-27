@@ -1,7 +1,7 @@
 unused
 work
-.nextflow*
 dag.dot
+.nextflow*
 report.html*
 timeline.html*
 trace.txt*
