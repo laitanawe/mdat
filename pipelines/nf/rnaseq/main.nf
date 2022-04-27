@@ -1,11 +1,11 @@
 #!/usr/bin/env nextflow
 nextflow.enable.dsl = 2
 
-//Include / Import the ffg modules into the main script:
+//This pipeline performs Raw Gene Expression Quantification (RGEQ)
+
+//Include the ffg modules into the main script:
 
 include { htseq_count } from './modules/htseq_count.nf'
-
-//This pipeline performs Raw Gene Expression Quantification
 
 workflow {
 
