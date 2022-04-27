@@ -1,0 +1,7 @@
+unused
+work
+.nextflow*
+dag.dot
+report.html*
+timeline.html*
+trace.txt*
