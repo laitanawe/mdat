@@ -34,7 +34,7 @@ echo -n "DESeq2:"; Rscript -e 'packageVersion("DESeq2")' | sed 's/\[1]//' | sed 
 echo -n "ggplot2:"; Rscript -e 'packageVersion("ggplot2")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
 echo -n "GAPIT:"; Rscript -e 'packageVersion("GAPIT3")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
 samtools --version | head -n 1
-hisat2 --version 2>&1 | head -1
+hisat2 --version 2>&1 | head -1 | sed 's/[^hisat]*//' | sed 's/[^\/]*//' | sed 's/[^h]*//'
 subread-align -version 2>&1 | sed '/^$/d'
 featureCounts -v 2>&1 | sed '/^$/d'
 htseq-count -h | tail -1 | sed 's/^Public License v3. Part of the //'
@@ -45,7 +45,8 @@ echo -n "Nextflow: "; nextflow -version | head -3 | tail -1 | sed 's/^ *//'
 gatk --version 2>&1 | tail -3 # | sed 's/[^Genome]*//'
 docker --version
 echo -n "Tidyverse:"; Rscript -e 'packageVersion("tidyverse")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
-bowtie2 --version 2>&1 | head -1
+bowtie --version | head -1 | sed 's/[^bow]*//' | sed 's/[^\/]*//' | sed 's/[^b]*//'
+bowtie2 --version 2>&1 | head -1 | sed 's/[^bow]*//' | sed 's/[^\/]*//' | sed 's/[^b]*//'
 tophat2 --version
 cufflinks --version 2>&1 | head -2 | tail -1
 echo -n "RforProteomics:"; Rscript -e 'packageVersion("RforProteomics")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
@@ -65,13 +66,16 @@ echo -n "DEXSeq:"; Rscript -e 'packageVersion("DEXSeq")' | sed 's/\[1]//' | sed 
 echo -n "DiffBind:"; Rscript -e 'packageVersion("DiffBind")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
 echo -n "ChIPQC:"; Rscript -e 'packageVersion("ChIPQC")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
 bedtools --version
-picard --version | sed 's/[^ ]*//'
+
+#picard --version | sed 's/[^ ]*//'
+echo -n "picard-tools: "; PicardCommandLine CreateSequenceDictionary 2>&1 | grep -i version | head -1
 echo -n "cython: "; python3 -c 'import cython as cyt; print(cyt.__version__)'
 echo -n "cykhash: "; python3 -c 'import cykhash as cyk; print(cyk.__version__)'
 macs2 --version
 echo -n "py2bit: "; python3 -c 'import py2bit as py2b; print(py2b.__version__)'
 echo -n "pyBigWig: "; python3 -c 'import pyBigWig as pyB; print(pyB.__version__)'
-echo -n "pysam: "; python3 -c 'import pysam as pys; print(pys.__version__)'
+echo -n "pysam for Python2: "; python2.7 -c 'import pysam as pys; print(pys.__version__)'
+echo -n "pysam for Python3: "; python3 -c 'import pysam as pys; print(pys.__version__)'
 idr --version | head -1
 
 echo -n "KODAMA:"; Rscript -e 'packageVersion("KODAMA")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
@@ -79,3 +83,8 @@ echo -n "RNASeqR:"; Rscript -e 'packageVersion("RNASeqR")' | sed 's/\[1]//' | se
 echo -n "mixOmics:"; Rscript -e 'packageVersion("mixOmics")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
 echo -n "dupRadar:"; Rscript -e 'packageVersion("dupRadar")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
 echo -n "gsalib:"; Rscript -e 'packageVersion("gsalib")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
+echo -n "vcfR:"; Rscript -e 'packageVersion("vcfR")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
+echo -n "Annovar"; table_annovar.pl | tail -2 | head -1
+tabix --version | head -1
+bgzip --version | head -1
+echo -n "salmon "; salmon --version 2>&1

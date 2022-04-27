@@ -1,8 +1,8 @@
 #!/usr/bin/env nextflow
 nextflow.enable.dsl = 2
 
-//Include / Import the ffg modules to this main script
-// include { htseq_count } from './modules/htseq_count.nf'
+//Include / Import this module to the main script
+
 //This script performs Raw Gene Expression Quantification on sorted BAM files
 
 process htseq_count {
@@ -22,9 +22,6 @@ output: tuple val(my_pattern), path('*.txt') //stdout //, tuple val(mycounts), t
     echo "We will now create the directory !{mycounts} for RGEQ ..."
     mkdir -pv !{mycounts}
 
-    #redirect output to a file your_groovy_code_goes_within_braces
-    #echo "!{mycounts} my friend, I'm in '$PWD'" > !{mycounts.toLowerCase()}.txt
-    echo "!{mycounts} my friend, I'm in '$PWD'" > !{mycounts.toLowerCase()}.echo.txt
     #redirect output to standard-out
     echo !{mycounts} "is a val and is my first argument in the anonymous workflow, I'm in '$PWD'"
     echo !{my_pattern} "is a val and is my second argument in the anonymous workflow, I'm in '$PWD'"
@@ -48,25 +45,15 @@ output: tuple val(my_pattern), path('*.txt') //stdout //, tuple val(mycounts), t
             !{params.GTF_FILE} \
             > !{mycounts}/${acc}.counts.txt 
       done
-
+    matrix_list=$(ls -Ah !{mycounts}/*.counts.txt > !{mycounts.toLowerCase()}.gather.txt)
     echo
+    echo "List of counts: "$matrix_list
     echo !{params.BAM_DIR} "is our BAM directory!"
     echo !{params.GTF_FILE} "is our GTF file!"
     echo
     echo "Raw Gene Expression Quantification process completed for all .BAM files now, $(date +%a) $(date +'%Y-%m-%d %H:%M:%S')"
 
+    #redirect output to a file your_groovy_code_goes_within_braces
+    echo "!{mycounts} my friend, I'm in '$PWD'" > !{mycounts.toLowerCase()}.echo.txt
     '''
- 
  }
-
-workflow {
-
-  ch0 = channel.of('count2', params.BAM_DIR)
-  ch0.subscribe({ println("ch0: $it") })
-
-  ch1 = channel.of(params.counts_dir, params.bam_files)
-  ch1.subscribe({ println("ch1: $it") })
-
-  ch2 = htseq_count(params.counts_dir, params.bam_files)
-  ch2.subscribe({ println("ch2: $it") })
-}
