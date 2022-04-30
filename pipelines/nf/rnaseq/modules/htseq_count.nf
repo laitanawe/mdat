@@ -7,8 +7,6 @@ nextflow.enable.dsl = 2
 
 process htseq_count {
 
-//tuple val(word), path('*.out')
-
 //input: tuple val(mycounts), path(my_pattern)
 input: val mycounts //, tuple val(my_pattern)
 input: val(my_pattern)
@@ -43,9 +41,9 @@ output: tuple val(my_pattern), path('*.txt') //stdout //, tuple val(mycounts), t
             -i gene \
             $sortedbam_file \
             !{params.GTF_FILE} \
-            > !{mycounts}/${acc}.counts.txt 
+            > ${acc}.!{mycounts}.txt 
       done
-    matrix_list=$(ls -Ah !{mycounts}/*.counts.txt > !{mycounts.toLowerCase()}.gather.txt)
+    matrix_list=$(ls -Ah *.!{mycounts}.txt > !{mycounts.toLowerCase()}.gather.txt)
     echo
     echo "List of counts: "$matrix_list
     echo !{params.BAM_DIR} "is our BAM directory!"

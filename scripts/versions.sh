@@ -84,7 +84,7 @@ echo -n "mixOmics:"; Rscript -e 'packageVersion("mixOmics")' | sed 's/\[1]//' | 
 echo -n "dupRadar:"; Rscript -e 'packageVersion("dupRadar")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
 echo -n "gsalib:"; Rscript -e 'packageVersion("gsalib")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
 echo -n "vcfR:"; Rscript -e 'packageVersion("vcfR")' | sed 's/\[1]//' | sed 's/‘//g' | sed 's/’//g'
-echo -n "Annovar"; table_annovar.pl | tail -2 | head -1
+echo -n "Annovar"; annotate_variation.pl -downdb null 2>&1 | tail -2 | head -1 | sed 's/\$Date\://' | sed 's/\$//'
 tabix --version | head -1
 bgzip --version | head -1
 echo -n "salmon "; salmon --version 2>&1
