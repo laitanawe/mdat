@@ -8,21 +8,21 @@ nextflow.enable.dsl = 2
 process htseq_count {
 
 //input: tuple val(mycounts), path(my_pattern)
-input: val mycounts //, tuple val(my_pattern)
+//input: val mcounts //, tuple val(my_pattern)
+
 input: val(my_pattern)
 output: tuple val(my_pattern), path('*.txt') //stdout //, tuple val(mycounts), tuple val(my_pattern), path('*.txt')
-//mycounts = 'counts'
 
    shell:
 
     '''
     echo "Creating directory for Raw Gene Expression Quantification ongoing ... $(date +%a) $(date +'%Y-%m-%d %H:%M:%S')"
-    echo "We will now create the directory !{mycounts} for RGEQ ..."
-    mkdir -pv !{mycounts}
+    echo "We will now create the directory !{params.counts_dir} for RGEQ ..."
+    mkdir -pv !{params.counts_dir}
 
     #redirect output to standard-out
-    echo !{mycounts} "is a val and is my first argument in the anonymous workflow, I'm in '$PWD'"
-    echo !{my_pattern} "is a val and is my second argument in the anonymous workflow, I'm in '$PWD'"
+    echo !{params.counts_dir} "is a val and was initially my first argument in the anonymous workflow, I'm in '$PWD'"
+    echo !{my_pattern} "is a val and is part of my second argument in the anonymous workflow, I'm in '$PWD'"
 
     n=0
     for sortedbam_file in !{my_pattern}; do echo; 
@@ -41,9 +41,9 @@ output: tuple val(my_pattern), path('*.txt') //stdout //, tuple val(mycounts), t
             -i gene \
             $sortedbam_file \
             !{params.GTF_FILE} \
-            > ${acc}.!{mycounts}.txt 
+            > ${acc}.!{params.counts_dir}.txt 
       done
-    matrix_list=$(ls -Ah *.!{mycounts}.txt > !{mycounts.toLowerCase()}.gather.txt)
+    matrix_list=$(ls -Ah *.!{params.counts_dir}.txt > !{params.counts_dir.toLowerCase()}.gather.txt)
     echo
     echo "List of counts: "$matrix_list
     echo !{params.BAM_DIR} "is our BAM directory!"
@@ -52,6 +52,6 @@ output: tuple val(my_pattern), path('*.txt') //stdout //, tuple val(mycounts), t
     echo "Raw Gene Expression Quantification process completed for all .BAM files now, $(date +%a) $(date +'%Y-%m-%d %H:%M:%S')"
 
     #redirect output to a file your_groovy_code_goes_within_braces
-    echo "!{mycounts} my friend, I'm in '$PWD'" > !{mycounts.toLowerCase()}.echo.txt
+    echo "!{params.counts_dir} my friend, I'm in '$PWD'" > !{params.counts_dir.toLowerCase()}.echo.txt
     '''
  }

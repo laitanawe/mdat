@@ -15,6 +15,6 @@ workflow {
   ch1 = channel.of(params.counts_dir, params.bam_files)
   ch1.subscribe({ println("ch1: $it") })
 
-  ch2 = htseq_count(params.counts_dir, params.bam_files)
+  ch2 = htseq_count(params.bam_files)
   ch2.subscribe({ println("ch2: $it") })
 }
