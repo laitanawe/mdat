@@ -18,7 +18,7 @@ output: tuple val(my_pattern), path('*.txt') //stdout //, tuple val(mycounts), t
     '''
     echo "Creating directory for Raw Gene Expression Quantification ongoing ... $(date +%a) $(date +'%Y-%m-%d %H:%M:%S')"
     echo "We will now create the directory !{params.counts_dir} for RGEQ ..."
-    mkdir -pv !{params.counts_dir}
+    mkdir -pv test_!{params.counts_dir}
 
     #redirect output to standard-out
     echo !{params.counts_dir} "is a val and was initially my first argument in the anonymous workflow, I'm in '$PWD'"
