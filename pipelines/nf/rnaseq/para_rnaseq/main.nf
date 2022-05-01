@@ -18,6 +18,9 @@ workflow {
   ch_bam = Channel.fromPath("${params.dir_bam}*.coordsort.bam")
   ch_bam.subscribe({ println("ch_bam: $it") })
 
-  ch2 = htseq_count(ch_bam)
-  ch2.subscribe({ println("ch2: $it") })
+  ch_htseq = htseq_count(ch_bam)
+  ch_htseq.subscribe({ println("ch_htseq: $it") })
+
+  chout_ht = ch_htseq
+  chout_ht.subscribe({ println("chout_ht: $it") })
 }

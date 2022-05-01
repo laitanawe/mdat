@@ -11,7 +11,7 @@ process htseq_count {
 //input: val mcounts //, tuple val(my_pattern)
 
 input: val(my_pattern)
-output: tuple val(my_pattern), path('*.txt') //stdout //, tuple val(mycounts), tuple val(my_pattern), path('*.txt')
+output: tuple val(my_pattern), path('*.counts.txt') //stdout //, tuple val(mycounts), tuple val(my_pattern), path('*.txt')
 
    shell:
 
