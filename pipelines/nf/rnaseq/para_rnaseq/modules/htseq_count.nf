@@ -1,7 +1,4 @@
-#!/usr/bin/env nextflow
-nextflow.enable.dsl = 2
-
-//This script performs Raw Gene Expression Quantification (RGEQ) on sorted BAM files
+//This module performs Raw Gene Expression Quantification (RGEQ) on sorted BAM files
 
 //This module should be included into the main script in order to do RGEQ
 
@@ -11,7 +8,8 @@ process htseq_count {
 //input: val mcounts //, tuple val(my_pattern)
 
 input: path(my_pattern)
-output: tuple val(my_pattern), path('*.counts.txt') //stdout //, tuple val(mycounts), tuple val(my_pattern), path('*.txt')
+output: tuple val(my_pattern), path('*.counts.txt') //path "${params.multiqc_prefix}.*.{txt,html}"
+//stdout //, tuple val(mycounts), tuple val(my_pattern), path('*.txt')
 
    shell:
 
